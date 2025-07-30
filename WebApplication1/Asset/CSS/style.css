@@ -1,0 +1,942 @@
+/* Global font and base styling */
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 2rem 0;
+  min-height: 100vh;
+  background: linear-gradient(to right, #faccef, #76cbf9);  /*#fce4ec    faccef  (gradient color)*/
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; 
+}
+
+form {
+  width: 100%;
+}
+
+/* login container */
+.login-container {
+  background-color: #fff;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #0077B6;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* registration container */
+.signup-container {
+  background-color: #fff;
+  padding: 2.5rem 3rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 900px;
+  margin-top: 2rem;
+}
+
+/* Heading style */
+.signup-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #0077B6;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Two-column layout */
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.form-col {
+  flex: 1;
+  min-width: 45%;
+}
+
+.form-col .form-group {
+  margin-bottom: 1.2rem;
+}
+
+/* Form group styling */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #0077B6;
+}
+
+/* Button styling */
+.btn-login {
+  width: 100%;
+  padding: 10px;
+  background-color: #0077B6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-login:hover {
+  background-color: #004a72;
+}
+
+/* Footer text */
+.footer-text {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 13px;
+  color: #666;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-col {
+    width: 100%;
+  }
+
+  .signup-container {
+    padding: 1.5rem;
+  }
+}
+
+/* Inline checkbox + label styling */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #0077B6;
+}
+
+/* Customer Registration container */
+.customer-container {
+  background-color: #fff;
+  padding: 2.5rem 3rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 700px;
+  margin-top: 2rem;
+}
+
+/* Heading for Customer form */
+.customer-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #0077B6;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Read-only fields like Customer ID and Created At */
+input[readonly] {
+  background-color: #f5f5f5;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/*======*/
+
+/* ========== HEADER ========== */
+.main-header {
+  width: 100%;
+  background: #fff;
+  padding: 15px 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 600;
+  color: #0077B6;
+}
+
+.navbar {
+  flex: 1;
+  text-align: center;
+}
+
+.nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  gap: 25px;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 14px;
+  color: #333;
+}
+
+.profile-icon {
+  background-color: #0077B6;
+  color: #fff;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ========== FOOTER ========== */
+.main-footer {
+  width: 100%;
+  background-color: #f1f1f1;
+  padding: 20px 30px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.footer-content {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.footer-content p {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footer-links li a {
+  text-decoration: none;
+  color: #0077B6;
+  font-size: 13px;
+}
+
+/* Responsive for header/footer */
+@media (max-width: 768px) {
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .main-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-info {
+    margin-top: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ========== Responsive Image Cards ========== */
+/*
+.responsive-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.image-card {
+  width: 100%;
+  max-width: 150px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.image-card:hover {
+  transform: translateY(-5px);
+}
+
+.image-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.image-card p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Responsive adjustments
+@media (max-width: 768px) {
+  .image-card {
+    max-width: 45%;
+  }
+}
+
+@media (max-width: 480px) {
+  .image-card {
+    max-width: 100%;
+  }
+}
+*/
+
+/* ==== Header based on Figma Screenshot ==== */
+.custom-header {
+  width: 100%;
+  background-color: #fff;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+}
+
+.left-section, .center-section, .right-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hamburger {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #0077B6;
+}
+
+.salon-text {
+  font-size: 14px;
+  color: #333;
+}
+
+.salon-btn {
+  padding: 5px 12px;
+  background-color: #d8f0fc;
+  border: none;
+  border-radius: 10px;
+  color: #0077B6;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.phone-icon {
+  font-size: 16px;
+}
+
+.phone-number {
+  font-weight: 500;
+}
+
+.user-greeting {
+  margin-left: 15px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+
+.profile-icon {
+  background-color: #0077B6;
+  color: white;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .custom-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .left-section, .center-section, .right-section {
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .salon-btn {
+    font-size: 12px;
+  }
+
+  .user-greeting {
+    margin-left: 0;
+  }
+}
+
+/* Material Icons Style */
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+  font-size: 24px;
+  vertical-align: middle;
+}
+
+/* Update Profile Icon Style */
+.profile-icon {
+  color: #ffffff;
+  font-size: 30px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+/* Update Phone Icon Style */
+.contact .material-symbols-outlined {
+  color: #0077B6;
+  font-size: 20px;
+}
+
+/* Content Area Padding */
+.content-area {
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* === Offer Cards === */
+.offers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.offer-card {
+  flex: 1;
+  min-width: 240px;
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.offer-card p {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.image-placeholder {
+  background-color: #eee;
+  height: 80px;
+  border-radius: 8px;
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  font-size: 14px;
+}
+
+.offer-btn {
+  background: #72cdf5;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* === Categories === */
+.categories h2 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.category-card {
+  flex: 1;
+  min-width: 120px;
+  max-width: 160px;
+  background: white;
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.category-card p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #444;
+}
+
+/* === Appointment Button === */
+.appointment-cta {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.appointment-btn {
+  background: linear-gradient(to right, #fa71cd, #c471f5);
+  color: white;
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+/* === Responsive Design === */
+@media (max-width: 768px) {
+  .offers,
+  .category-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .offer-card,
+  .category-card {
+    width: 90%;
+    max-width: 300px;
+  }
+}
+
+/*salon name*/
+/* Global font and base styling */
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 2rem 0;
+  min-height: 100vh;
+  background: linear-gradient(to right, #faccef, #76cbf9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Forms */
+form {
+  width: 100%;
+}
+
+/* login container */
+.login-container {
+  background-color: #fff;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #0077B6;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* registration container */
+.signup-container {
+  background-color: #fff;
+  padding: 2.5rem 3rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 900px;
+  margin-top: 2rem;
+}
+
+.signup-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #0077B6;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Form layout */
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.form-col {
+  flex: 1;
+  min-width: 45%;
+}
+
+.form-col .form-group {
+  margin-bottom: 1.2rem;
+}
+
+/* Form group styling */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #0077B6;
+}
+
+/* Button styling */
+.btn-login {
+  width: 100%;
+  padding: 10px;
+  background-color: #0077B6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-login:hover {
+  background-color: #004a72;
+}
+
+/* Footer */
+.footer-text {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 13px;
+  color: #666;
+}
+
+/* Read-only fields */
+input[readonly] {
+  background-color: #f5f5f5;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* Checkbox group */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #0077B6;
+}
+
+/* ================= CUSTOMER CONTAINER ================= */
+.customer-container {
+  background-color: #fff;
+  padding: 2.5rem 3rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 700px;
+  margin: 40px auto;
+}
+
+.customer-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #0077B6;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* ================= HEADER (TOPBAR) ================= */
+.topbar {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.menu-icon {
+  font-size: 24px;
+  margin-right: 16px;
+  cursor: pointer;
+}
+
+.brand {
+  font-size: 22px;
+  font-weight: 600;
+  color: #000;
+}
+
+/* ================= CARD WRAPPER ================= */
+.card-wrapper {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 40px auto;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  width: 220px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.card p {
+  padding: 12px 0;
+  font-weight: 500;
+  font-size: 16px;
+  color: #000;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-col {
+    width: 100%;
+  }
+
+  .signup-container {
+    padding: 1.5rem;
+  }
+
+  .card {
+    width: 90%;
+    max-width: 300px;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+
+/*staff dashboard*/
+.dashboard-box {
+      background-color: #fff;
+      width: 90%;
+      max-width: 800px;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .logout-btn {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .profile-section {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .profile-photo {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .welcome-text {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 10px 0 5px;
+    }
+
+    .update-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    h4 {
+      margin-top: 30px;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f9f9f9;
+    }

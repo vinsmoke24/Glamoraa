@@ -1,0 +1,3444 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GlamoraaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ActivityLogs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" />
+          <Property Name="Action" Type="varchar" MaxLength="100" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" />
+          <Property Name="Timestamp" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Appointments">
+          <Key>
+            <PropertyRef Name="AppointmentId" />
+          </Key>
+          <Property Name="AppointmentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SalonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BranchId" Type="uniqueidentifier" />
+          <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ServiceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SubServiceId" Type="int" Nullable="false" />
+          <Property Name="StaffId" Type="uniqueidentifier" />
+          <Property Name="PreferredDate" Type="date" />
+          <Property Name="PreferredTime" Type="time" Precision="7" />
+          <Property Name="SpecialRequests" Type="text" />
+          <Property Name="FullAmount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AdvancePaid" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="CouponCode" Type="varchar" MaxLength="50" />
+          <Property Name="BookingDate" Type="datetime" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="AppointmentServiceProducts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AppointmentServiceId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="AppointmentServices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AppointmentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ServiceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AssignedStaffId" Type="uniqueidentifier" />
+          <Property Name="PriceAtBooking" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="EstimatedDurationMins" Type="int" />
+        </EntityType>
+        <EntityType Name="Branches">
+          <Key>
+            <PropertyRef Name="BranchId" />
+          </Key>
+          <Property Name="BranchId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SalonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BranchName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Coupons">
+          <Key>
+            <PropertyRef Name="CouponId" />
+          </Key>
+          <Property Name="CouponId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SalonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="text" />
+          <Property Name="DiscountAmount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="IsPercentage" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CouponUsages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CouponId" Type="int" Nullable="false" />
+          <Property Name="InvoiceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UsedOn" Type="datetime" Nullable="false" />
+          <Property Name="DiscountAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SalonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BranchId" Type="uniqueidentifier" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="255" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" />
+          <Property Name="IsMember" Type="bit" />
+          <Property Name="LastVisitDate" Type="datetime" />
+          <Property Name="AmountSpent" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="PasswordHash" Type="varchar" MaxLength="255" />
+          <Property Name="LoyaltyPoints" Type="int" />
+          <Property Name="MembershipId" Type="int" />
+        </EntityType>
+        <EntityType Name="DailyCashLogs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SalonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BranchId" Type="uniqueidentifier" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="OpeningCash" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="ClosingCash" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="255" />
+          <Property Name="RecordedBy" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="FeedbackId" />
+          </Key>
+          <Property Name="FeedbackId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AppointmentId" Type="uniqueidentifier" />
+          <Property Name="StaffId" Type="uniqueidentifier" />
+          <Property Name="CustomerId" Type="uniqueidentifier" />
+          <Property Name="Rating" Type="int" />
+          <Property Name="Comments" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreatedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="InvoiceProducts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvoiceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProductId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StaffId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="GstRatePercent" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Invoices">
+          <Key>
+            <PropertyRef Name="InvoiceId" />
+          </Key>
+          <Property Name="InvoiceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SalonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BranchId" Type="uniqueidentifier" />
+          <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AppointmentId" Type="uniqueidentifier" />
+          <Property Name="InvoiceDate" Type="datetime" />
+          <Property Name="Subtotal" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Discount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TaxAmount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TotalAmount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="PaymentStatus" Type="varchar" MaxLength="20" />
+          <Property Name="PaymentMethod" Type="varchar" MaxLength="20" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="InvoiceServices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvoiceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AppointmentServiceId" Type="int" Nullable="false" />
+          <Property Name="StaffId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PriceAtBooking" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="GstRatePercent" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Memberships">
+          <Key>
+            <PropertyRef Name="MembershipId" />
+          </Key>
+          <Property Name="MembershipId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="DiscountPercent" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="ValidFrom" Type="date" />
+          <Property Name="ValidTo" Type="date" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Payments">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="PaymentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SalonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BranchId" Type="uniqueidentifier" />
+          <Property Name="AppointmentId" Type="uniqueidentifier" />
+          <Property Name="AmountPaid" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="PaymentMode" Type="varchar" MaxLength="20" />
+          <Property Name="TokenAdvance" Type="bit" />
+          <Property Name="PaidOn" Type="datetime" />
+          <Property Name="InvoiceId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SalonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Category" Type="nvarchar" MaxLength="100" />
+          <Property Name="Type" Type="varchar" MaxLength="50" />
+          <Property Name="Unit" Type="nvarchar" MaxLength="50" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductStock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" />
+          <Property Name="Operation" Type="varchar" MaxLength="50" />
+          <Property Name="ReferenceId" Type="uniqueidentifier" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SalonOwners">
+          <Key>
+            <PropertyRef Name="OwnerId" />
+          </Key>
+          <Property Name="OwnerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Gender" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="DateOfBirth" Type="date" Nullable="false" />
+          <Property Name="ProfilePictureUrl" Type="nvarchar" MaxLength="250" />
+          <Property Name="GSTNumber" Type="varchar" MaxLength="50" />
+          <Property Name="OpeningTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="ClosingTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="TermsAccepted" Type="bit" Nullable="false" />
+          <Property Name="SubscribeToUpdates" Type="bit" Nullable="false" />
+          <Property Name="SalonName" Type="varchar" MaxLength="200" />
+          <Property Name="SalonType" Type="varchar" MaxLength="50" />
+          <Property Name="ServicesOffered" Type="varchar" MaxLength="500" />
+          <Property Name="StreetAddress" Type="varchar" MaxLength="300" />
+          <Property Name="City" Type="varchar" MaxLength="100" />
+          <Property Name="Country" Type="varchar" MaxLength="100" />
+          <Property Name="State" Type="varchar" MaxLength="100" />
+          <Property Name="PinCode" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Salons">
+          <Key>
+            <PropertyRef Name="SalonId" />
+          </Key>
+          <Property Name="SalonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OwnerId" Type="uniqueidentifier" />
+          <Property Name="SalonName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ServiceProducts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProductId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsDefault" Type="bit" Nullable="false" />
+          <Property Name="DefaultQty" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="ServiceId" />
+          </Key>
+          <Property Name="ServiceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SalonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ServiceName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="text" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="StaffId" />
+          </Key>
+          <Property Name="StaffId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" />
+          <Property Name="SalonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BranchId" Type="uniqueidentifier" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ProfilePictureUrl" Type="nvarchar" MaxLength="255" />
+          <Property Name="Specializations" Type="nvarchar" MaxLength="255" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="DateOfJoining" Type="date" />
+          <Property Name="PasswordHash" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="StaffAttendance">
+          <Key>
+            <PropertyRef Name="AttendanceId" />
+          </Key>
+          <Property Name="AttendanceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StaffId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AttendanceDate" Type="date" Nullable="false" />
+          <Property Name="CheckInTime" Type="datetime" />
+          <Property Name="CheckOutTime" Type="datetime" />
+          <Property Name="Status" Type="varchar" MaxLength="20" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="StaffAvailabilityOverrides">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StaffId" Type="uniqueidentifier" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="IsAvailable" Type="bit" Nullable="false" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="StaffServices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StaffId" Type="uniqueidentifier" />
+          <Property Name="ServiceId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="StaffSubServices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StaffId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SubServiceId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StaffWorkingHours">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StaffId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DayOfWeek" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubServiceProducts">
+          <Key>
+            <PropertyRef Name="SubServiceId" />
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="SubServiceId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="QuantityRequired" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubServices">
+          <Key>
+            <PropertyRef Name="SubServiceId" />
+          </Key>
+          <Property Name="SubServiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SubServiceName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="DurationMinutes" Type="int" />
+          <Property Name="Description" Type="text" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PasswordHash" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="SalonId" Type="uniqueidentifier" />
+          <Property Name="BranchId" Type="uniqueidentifier" />
+          <Property Name="LastLogin" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__StaffAtte__Staff__32767D0B">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="StaffAttendance" Type="Self.StaffAttendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="StaffAttendance">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SubServic__Produ__2F9A1060">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="SubServiceProducts" Type="Self.SubServiceProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="SubServiceProducts">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SubServic__SubSe__2EA5EC27">
+          <End Role="SubServices" Type="Self.SubServices" Multiplicity="1" />
+          <End Role="SubServiceProducts" Type="Self.SubServiceProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubServices">
+              <PropertyRef Name="SubServiceId" />
+            </Principal>
+            <Dependent Role="SubServiceProducts">
+              <PropertyRef Name="SubServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ActivityLogs_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="ActivityLogs" Type="Self.ActivityLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ActivityLogs">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="0..1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Customers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Salons">
+          <End Role="Salons" Type="Self.Salons" Multiplicity="1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceId" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_SubServices">
+          <End Role="SubServices" Type="Self.SubServices" Multiplicity="1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubServices">
+              <PropertyRef Name="SubServiceId" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="SubServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppointmentServiceProducts_AppointmentServices">
+          <End Role="AppointmentServices" Type="Self.AppointmentServices" Multiplicity="1" />
+          <End Role="AppointmentServiceProducts" Type="Self.AppointmentServiceProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppointmentServices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AppointmentServiceProducts">
+              <PropertyRef Name="AppointmentServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppointmentServiceProducts_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="AppointmentServiceProducts" Type="Self.AppointmentServiceProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="AppointmentServiceProducts">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppointmentServices_Appointments">
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="1" />
+          <End Role="AppointmentServices" Type="Self.AppointmentServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointments">
+              <PropertyRef Name="AppointmentId" />
+            </Principal>
+            <Dependent Role="AppointmentServices">
+              <PropertyRef Name="AppointmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppointmentServices_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="AppointmentServices" Type="Self.AppointmentServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceId" />
+            </Principal>
+            <Dependent Role="AppointmentServices">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppointmentServices_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="AppointmentServices" Type="Self.AppointmentServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="AppointmentServices">
+              <PropertyRef Name="AssignedStaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Branches_Salons">
+          <End Role="Salons" Type="Self.Salons" Multiplicity="1" />
+          <End Role="Branches" Type="Self.Branches" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Branches">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Coupons_Salons">
+          <End Role="Salons" Type="Self.Salons" Multiplicity="1" />
+          <End Role="Coupons" Type="Self.Coupons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Coupons">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CouponUsages_Coupons">
+          <End Role="Coupons" Type="Self.Coupons" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CouponUsages" Type="Self.CouponUsages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coupons">
+              <PropertyRef Name="CouponId" />
+            </Principal>
+            <Dependent Role="CouponUsages">
+              <PropertyRef Name="CouponId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CouponUsages_Customers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CouponUsages" Type="Self.CouponUsages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="CouponUsages">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CouponUsages_Invoices">
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CouponUsages" Type="Self.CouponUsages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="InvoiceId" />
+            </Principal>
+            <Dependent Role="CouponUsages">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customers_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="0..1" />
+          <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Customers">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customers_Memberships">
+          <End Role="Memberships" Type="Self.Memberships" Multiplicity="0..1" />
+          <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Memberships">
+              <PropertyRef Name="MembershipId" />
+            </Principal>
+            <Dependent Role="Customers">
+              <PropertyRef Name="MembershipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customers_Salons">
+          <End Role="Salons" Type="Self.Salons" Multiplicity="1" />
+          <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Customers">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DailyCashLogs_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="0..1" />
+          <End Role="DailyCashLogs" Type="Self.DailyCashLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="DailyCashLogs">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DailyCashLogs_Salons">
+          <End Role="Salons" Type="Self.Salons" Multiplicity="1" />
+          <End Role="DailyCashLogs" Type="Self.DailyCashLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="DailyCashLogs">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DailyCashLogs_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="DailyCashLogs" Type="Self.DailyCashLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="DailyCashLogs">
+              <PropertyRef Name="RecordedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Feedback_Appointments">
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointments">
+              <PropertyRef Name="AppointmentId" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="AppointmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Feedback_Customers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Feedback_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceProducts_Invoices">
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="InvoiceProducts" Type="Self.InvoiceProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="InvoiceId" />
+            </Principal>
+            <Dependent Role="InvoiceProducts">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceProducts_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="InvoiceProducts" Type="Self.InvoiceProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="InvoiceProducts">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoices_Appointments">
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="0..1" />
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointments">
+              <PropertyRef Name="AppointmentId" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="AppointmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoices_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="0..1" />
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoices_Customers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoices_Salons">
+          <End Role="Salons" Type="Self.Salons" Multiplicity="1" />
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoices_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceServices_AppointmentServices">
+          <End Role="AppointmentServices" Type="Self.AppointmentServices" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="InvoiceServices" Type="Self.InvoiceServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppointmentServices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvoiceServices">
+              <PropertyRef Name="AppointmentServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceServices_Invoices">
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="InvoiceServices" Type="Self.InvoiceServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="InvoiceId" />
+            </Principal>
+            <Dependent Role="InvoiceServices">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Appointments">
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="0..1" />
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointments">
+              <PropertyRef Name="AppointmentId" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="AppointmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="0..1" />
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Invoices">
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="0..1" />
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="InvoiceId" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Salons">
+          <End Role="Salons" Type="Self.Salons" Multiplicity="1" />
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_Salons">
+          <End Role="Salons" Type="Self.Salons" Multiplicity="1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductStock_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="ProductStock" Type="Self.ProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductStock">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalonOwners_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="SalonOwners" Type="Self.SalonOwners" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="SalonOwners">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Salons_SalonOwners">
+          <End Role="SalonOwners" Type="Self.SalonOwners" Multiplicity="0..1" />
+          <End Role="Salons" Type="Self.Salons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalonOwners">
+              <PropertyRef Name="OwnerId" />
+            </Principal>
+            <Dependent Role="Salons">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceProducts_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ServiceProducts" Type="Self.ServiceProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ServiceProducts">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceProducts_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ServiceProducts" Type="Self.ServiceProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceId" />
+            </Principal>
+            <Dependent Role="ServiceProducts">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Services_Salons">
+          <End Role="Salons" Type="Self.Salons" Multiplicity="1" />
+          <End Role="Services" Type="Self.Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Services">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Staff_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="0..1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Staff_Salons">
+          <End Role="Salons" Type="Self.Salons" Multiplicity="1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Staff_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StaffAvailabilityOverrides_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="StaffAvailabilityOverrides" Type="Self.StaffAvailabilityOverrides" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="StaffAvailabilityOverrides">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StaffServices_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="0..1" />
+          <End Role="StaffServices" Type="Self.StaffServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceId" />
+            </Principal>
+            <Dependent Role="StaffServices">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StaffServices_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="StaffServices" Type="Self.StaffServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="StaffServices">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StaffSubServices_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StaffSubServices" Type="Self.StaffSubServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="StaffSubServices">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StaffSubServices_SubService">
+          <End Role="SubServices" Type="Self.SubServices" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StaffSubServices" Type="Self.StaffSubServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubServices">
+              <PropertyRef Name="SubServiceId" />
+            </Principal>
+            <Dependent Role="StaffSubServices">
+              <PropertyRef Name="SubServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StaffWorkingHours_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="StaffWorkingHours" Type="Self.StaffWorkingHours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="StaffWorkingHours">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubServices_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="SubServices" Type="Self.SubServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceId" />
+            </Principal>
+            <Dependent Role="SubServices">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Salons">
+          <End Role="Salons" Type="Self.Salons" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GlamoraaModelStoreContainer">
+          <EntitySet Name="ActivityLogs" EntityType="Self.ActivityLogs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Appointments" EntityType="Self.Appointments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AppointmentServiceProducts" EntityType="Self.AppointmentServiceProducts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AppointmentServices" EntityType="Self.AppointmentServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Branches" EntityType="Self.Branches" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Coupons" EntityType="Self.Coupons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CouponUsages" EntityType="Self.CouponUsages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DailyCashLogs" EntityType="Self.DailyCashLogs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoiceProducts" EntityType="Self.InvoiceProducts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invoices" EntityType="Self.Invoices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoiceServices" EntityType="Self.InvoiceServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Memberships" EntityType="Self.Memberships" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payments" EntityType="Self.Payments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductStock" EntityType="Self.ProductStock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalonOwners" EntityType="Self.SalonOwners" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Salons" EntityType="Self.Salons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceProducts" EntityType="Self.ServiceProducts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StaffAttendance" EntityType="Self.StaffAttendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StaffAvailabilityOverrides" EntityType="Self.StaffAvailabilityOverrides" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StaffServices" EntityType="Self.StaffServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StaffSubServices" EntityType="Self.StaffSubServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StaffWorkingHours" EntityType="Self.StaffWorkingHours" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubServiceProducts" EntityType="Self.SubServiceProducts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubServices" EntityType="Self.SubServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__StaffAtte__Staff__32767D0B" Association="Self.FK__StaffAtte__Staff__32767D0B">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="StaffAttendance" EntitySet="StaffAttendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SubServic__Produ__2F9A1060" Association="Self.FK__SubServic__Produ__2F9A1060">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="SubServiceProducts" EntitySet="SubServiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SubServic__SubSe__2EA5EC27" Association="Self.FK__SubServic__SubSe__2EA5EC27">
+            <End Role="SubServices" EntitySet="SubServices" />
+            <End Role="SubServiceProducts" EntitySet="SubServiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ActivityLogs_Users" Association="Self.FK_ActivityLogs_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ActivityLogs" EntitySet="ActivityLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Branches" Association="Self.FK_Appointments_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Customers" Association="Self.FK_Appointments_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Salons" Association="Self.FK_Appointments_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Services" Association="Self.FK_Appointments_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Staff" Association="Self.FK_Appointments_Staff">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_SubServices" Association="Self.FK_Appointments_SubServices">
+            <End Role="SubServices" EntitySet="SubServices" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppointmentServiceProducts_AppointmentServices" Association="Self.FK_AppointmentServiceProducts_AppointmentServices">
+            <End Role="AppointmentServices" EntitySet="AppointmentServices" />
+            <End Role="AppointmentServiceProducts" EntitySet="AppointmentServiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppointmentServiceProducts_Products" Association="Self.FK_AppointmentServiceProducts_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="AppointmentServiceProducts" EntitySet="AppointmentServiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppointmentServices_Appointments" Association="Self.FK_AppointmentServices_Appointments">
+            <End Role="Appointments" EntitySet="Appointments" />
+            <End Role="AppointmentServices" EntitySet="AppointmentServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppointmentServices_Services" Association="Self.FK_AppointmentServices_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="AppointmentServices" EntitySet="AppointmentServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppointmentServices_Staff" Association="Self.FK_AppointmentServices_Staff">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="AppointmentServices" EntitySet="AppointmentServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Branches_Salons" Association="Self.FK_Branches_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Branches" EntitySet="Branches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Coupons_Salons" Association="Self.FK_Coupons_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Coupons" EntitySet="Coupons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CouponUsages_Coupons" Association="Self.FK_CouponUsages_Coupons">
+            <End Role="Coupons" EntitySet="Coupons" />
+            <End Role="CouponUsages" EntitySet="CouponUsages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CouponUsages_Customers" Association="Self.FK_CouponUsages_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="CouponUsages" EntitySet="CouponUsages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CouponUsages_Invoices" Association="Self.FK_CouponUsages_Invoices">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="CouponUsages" EntitySet="CouponUsages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customers_Branches" Association="Self.FK_Customers_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Customers" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customers_Memberships" Association="Self.FK_Customers_Memberships">
+            <End Role="Memberships" EntitySet="Memberships" />
+            <End Role="Customers" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customers_Salons" Association="Self.FK_Customers_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Customers" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DailyCashLogs_Branches" Association="Self.FK_DailyCashLogs_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="DailyCashLogs" EntitySet="DailyCashLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DailyCashLogs_Salons" Association="Self.FK_DailyCashLogs_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="DailyCashLogs" EntitySet="DailyCashLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DailyCashLogs_Users" Association="Self.FK_DailyCashLogs_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="DailyCashLogs" EntitySet="DailyCashLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_Appointments" Association="Self.FK_Feedback_Appointments">
+            <End Role="Appointments" EntitySet="Appointments" />
+            <End Role="Feedback" EntitySet="Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_Customers" Association="Self.FK_Feedback_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Feedback" EntitySet="Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_Staff" Association="Self.FK_Feedback_Staff">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="Feedback" EntitySet="Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceProducts_Invoices" Association="Self.FK_InvoiceProducts_Invoices">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="InvoiceProducts" EntitySet="InvoiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceProducts_Products" Association="Self.FK_InvoiceProducts_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="InvoiceProducts" EntitySet="InvoiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoices_Appointments" Association="Self.FK_Invoices_Appointments">
+            <End Role="Appointments" EntitySet="Appointments" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoices_Branches" Association="Self.FK_Invoices_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoices_Customers" Association="Self.FK_Invoices_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoices_Salons" Association="Self.FK_Invoices_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoices_Users" Association="Self.FK_Invoices_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceServices_AppointmentServices" Association="Self.FK_InvoiceServices_AppointmentServices">
+            <End Role="AppointmentServices" EntitySet="AppointmentServices" />
+            <End Role="InvoiceServices" EntitySet="InvoiceServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceServices_Invoices" Association="Self.FK_InvoiceServices_Invoices">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="InvoiceServices" EntitySet="InvoiceServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Appointments" Association="Self.FK_Payments_Appointments">
+            <End Role="Appointments" EntitySet="Appointments" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Branches" Association="Self.FK_Payments_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Invoices" Association="Self.FK_Payments_Invoices">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Salons" Association="Self.FK_Payments_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Products_Salons" Association="Self.FK_Products_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductStock_Products" Association="Self.FK_ProductStock_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductStock" EntitySet="ProductStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalonOwners_Users" Association="Self.FK_SalonOwners_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="SalonOwners" EntitySet="SalonOwners" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Salons_SalonOwners" Association="Self.FK_Salons_SalonOwners">
+            <End Role="SalonOwners" EntitySet="SalonOwners" />
+            <End Role="Salons" EntitySet="Salons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceProducts_Products" Association="Self.FK_ServiceProducts_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ServiceProducts" EntitySet="ServiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceProducts_Services" Association="Self.FK_ServiceProducts_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="ServiceProducts" EntitySet="ServiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_Salons" Association="Self.FK_Services_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Staff_Branches" Association="Self.FK_Staff_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Staff" EntitySet="Staff" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Staff_Salons" Association="Self.FK_Staff_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Staff" EntitySet="Staff" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Staff_Users" Association="Self.FK_Staff_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Staff" EntitySet="Staff" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StaffAvailabilityOverrides_Staff" Association="Self.FK_StaffAvailabilityOverrides_Staff">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="StaffAvailabilityOverrides" EntitySet="StaffAvailabilityOverrides" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StaffServices_Services" Association="Self.FK_StaffServices_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="StaffServices" EntitySet="StaffServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StaffServices_Staff" Association="Self.FK_StaffServices_Staff">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="StaffServices" EntitySet="StaffServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StaffSubServices_Staff" Association="Self.FK_StaffSubServices_Staff">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="StaffSubServices" EntitySet="StaffSubServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StaffSubServices_SubService" Association="Self.FK_StaffSubServices_SubService">
+            <End Role="SubServices" EntitySet="SubServices" />
+            <End Role="StaffSubServices" EntitySet="StaffSubServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StaffWorkingHours_Staff" Association="Self.FK_StaffWorkingHours_Staff">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="StaffWorkingHours" EntitySet="StaffWorkingHours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubServices_Services" Association="Self.FK_SubServices_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="SubServices" EntitySet="SubServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Branches" Association="Self.FK_Users_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Salons" Association="Self.FK_Users_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GlamoraaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ActivityLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Guid" />
+          <Property Name="Action" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="Self.FK_ActivityLogs_Users" FromRole="ActivityLogs" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="AppointmentId" />
+          </Key>
+          <Property Name="AppointmentId" Type="Guid" Nullable="false" />
+          <Property Name="SalonId" Type="Guid" Nullable="false" />
+          <Property Name="BranchId" Type="Guid" />
+          <Property Name="CustomerId" Type="Guid" Nullable="false" />
+          <Property Name="ServiceId" Type="Guid" Nullable="false" />
+          <Property Name="SubServiceId" Type="Int32" Nullable="false" />
+          <Property Name="StaffId" Type="Guid" />
+          <Property Name="PreferredDate" Type="DateTime" Precision="0" />
+          <Property Name="PreferredTime" Type="Time" Precision="7" />
+          <Property Name="SpecialRequests" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FullAmount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="AdvancePaid" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="CouponCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BookingDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Branch" Relationship="Self.FK_Appointments_Branches" FromRole="Appointments" ToRole="Branches" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Appointments_Customers" FromRole="Appointments" ToRole="Customers" />
+          <NavigationProperty Name="Salon" Relationship="Self.FK_Appointments_Salons" FromRole="Appointments" ToRole="Salons" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_Appointments_Services" FromRole="Appointments" ToRole="Services" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK_Appointments_Staff" FromRole="Appointments" ToRole="Staff" />
+          <NavigationProperty Name="SubService" Relationship="Self.FK_Appointments_SubServices" FromRole="Appointments" ToRole="SubServices" />
+          <NavigationProperty Name="AppointmentServices" Relationship="Self.FK_AppointmentServices_Appointments" FromRole="Appointments" ToRole="AppointmentServices" />
+          <NavigationProperty Name="Feedbacks" Relationship="Self.FK_Feedback_Appointments" FromRole="Appointments" ToRole="Feedback" />
+          <NavigationProperty Name="Invoices" Relationship="Self.FK_Invoices_Appointments" FromRole="Appointments" ToRole="Invoices" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK_Payments_Appointments" FromRole="Appointments" ToRole="Payments" />
+        </EntityType>
+        <EntityType Name="AppointmentServiceProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AppointmentServiceId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Guid" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="AppointmentService" Relationship="Self.FK_AppointmentServiceProducts_AppointmentServices" FromRole="AppointmentServiceProducts" ToRole="AppointmentServices" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_AppointmentServiceProducts_Products" FromRole="AppointmentServiceProducts" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="AppointmentService">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AppointmentId" Type="Guid" Nullable="false" />
+          <Property Name="ServiceId" Type="Guid" Nullable="false" />
+          <Property Name="AssignedStaffId" Type="Guid" />
+          <Property Name="PriceAtBooking" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="EstimatedDurationMins" Type="Int32" />
+          <NavigationProperty Name="Appointment" Relationship="Self.FK_AppointmentServices_Appointments" FromRole="AppointmentServices" ToRole="Appointments" />
+          <NavigationProperty Name="AppointmentServiceProducts" Relationship="Self.FK_AppointmentServiceProducts_AppointmentServices" FromRole="AppointmentServices" ToRole="AppointmentServiceProducts" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_AppointmentServices_Services" FromRole="AppointmentServices" ToRole="Services" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK_AppointmentServices_Staff" FromRole="AppointmentServices" ToRole="Staff" />
+          <NavigationProperty Name="InvoiceServices" Relationship="GlamoraaModel.FK_InvoiceServices_AppointmentServices" FromRole="AppointmentService" ToRole="InvoiceService" />
+        </EntityType>
+        <EntityType Name="Branch">
+          <Key>
+            <PropertyRef Name="BranchId" />
+          </Key>
+          <Property Name="BranchId" Type="Guid" Nullable="false" />
+          <Property Name="SalonId" Type="Guid" Nullable="false" />
+          <Property Name="BranchName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointments_Branches" FromRole="Branches" ToRole="Appointments" />
+          <NavigationProperty Name="Salon" Relationship="Self.FK_Branches_Salons" FromRole="Branches" ToRole="Salons" />
+          <NavigationProperty Name="Customers" Relationship="Self.FK_Customers_Branches" FromRole="Branches" ToRole="Customers" />
+          <NavigationProperty Name="DailyCashLogs" Relationship="Self.FK_DailyCashLogs_Branches" FromRole="Branches" ToRole="DailyCashLogs" />
+          <NavigationProperty Name="Invoices" Relationship="Self.FK_Invoices_Branches" FromRole="Branches" ToRole="Invoices" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK_Payments_Branches" FromRole="Branches" ToRole="Payments" />
+          <NavigationProperty Name="Staffs" Relationship="Self.FK_Staff_Branches" FromRole="Branches" ToRole="Staff" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_Branches" FromRole="Branches" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Coupon">
+          <Key>
+            <PropertyRef Name="CouponId" />
+          </Key>
+          <Property Name="CouponId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SalonId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DiscountAmount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="IsPercentage" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Salon" Relationship="Self.FK_Coupons_Salons" FromRole="Coupons" ToRole="Salons" />
+          <NavigationProperty Name="CouponUsages" Relationship="GlamoraaModel.FK_CouponUsages_Coupons" FromRole="Coupon" ToRole="CouponUsage" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Guid" Nullable="false" />
+          <Property Name="SalonId" Type="Guid" Nullable="false" />
+          <Property Name="BranchId" Type="Guid" />
+          <Property Name="FullName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IsMember" Type="Boolean" />
+          <Property Name="LastVisitDate" Type="DateTime" Precision="3" />
+          <Property Name="AmountSpent" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LoyaltyPoints" Type="Int32" />
+          <Property Name="MembershipId" Type="Int32" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointments_Customers" FromRole="Customers" ToRole="Appointments" />
+          <NavigationProperty Name="Branch" Relationship="Self.FK_Customers_Branches" FromRole="Customers" ToRole="Branches" />
+          <NavigationProperty Name="Membership" Relationship="Self.FK_Customers_Memberships" FromRole="Customers" ToRole="Memberships" />
+          <NavigationProperty Name="Salon" Relationship="Self.FK_Customers_Salons" FromRole="Customers" ToRole="Salons" />
+          <NavigationProperty Name="Feedbacks" Relationship="Self.FK_Feedback_Customers" FromRole="Customers" ToRole="Feedback" />
+          <NavigationProperty Name="Invoices" Relationship="Self.FK_Invoices_Customers" FromRole="Customers" ToRole="Invoices" />
+          <NavigationProperty Name="CouponUsages" Relationship="GlamoraaModel.FK_CouponUsages_Customers" FromRole="Customer" ToRole="CouponUsage" />
+        </EntityType>
+        <EntityType Name="DailyCashLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SalonId" Type="Guid" Nullable="false" />
+          <Property Name="BranchId" Type="Guid" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="OpeningCash" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="ClosingCash" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Notes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="RecordedBy" Type="Guid" />
+          <NavigationProperty Name="Branch" Relationship="Self.FK_DailyCashLogs_Branches" FromRole="DailyCashLogs" ToRole="Branches" />
+          <NavigationProperty Name="Salon" Relationship="Self.FK_DailyCashLogs_Salons" FromRole="DailyCashLogs" ToRole="Salons" />
+          <NavigationProperty Name="User" Relationship="Self.FK_DailyCashLogs_Users" FromRole="DailyCashLogs" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="FeedbackId" />
+          </Key>
+          <Property Name="FeedbackId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AppointmentId" Type="Guid" />
+          <Property Name="StaffId" Type="Guid" />
+          <Property Name="CustomerId" Type="Guid" />
+          <Property Name="Rating" Type="Int32" />
+          <Property Name="Comments" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Appointment" Relationship="Self.FK_Feedback_Appointments" FromRole="Feedback" ToRole="Appointments" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Feedback_Customers" FromRole="Feedback" ToRole="Customers" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK_Feedback_Staff" FromRole="Feedback" ToRole="Staff" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="InvoiceId" />
+          </Key>
+          <Property Name="InvoiceId" Type="Guid" Nullable="false" />
+          <Property Name="SalonId" Type="Guid" Nullable="false" />
+          <Property Name="BranchId" Type="Guid" />
+          <Property Name="CustomerId" Type="Guid" Nullable="false" />
+          <Property Name="AppointmentId" Type="Guid" />
+          <Property Name="InvoiceDate" Type="DateTime" Precision="3" />
+          <Property Name="Subtotal" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Discount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="TaxAmount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="PaymentStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentMethod" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Guid" />
+          <NavigationProperty Name="Appointment" Relationship="Self.FK_Invoices_Appointments" FromRole="Invoices" ToRole="Appointments" />
+          <NavigationProperty Name="Branch" Relationship="Self.FK_Invoices_Branches" FromRole="Invoices" ToRole="Branches" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Invoices_Customers" FromRole="Invoices" ToRole="Customers" />
+          <NavigationProperty Name="Salon" Relationship="Self.FK_Invoices_Salons" FromRole="Invoices" ToRole="Salons" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Invoices_Users" FromRole="Invoices" ToRole="Users" />
+          <NavigationProperty Name="CouponUsages" Relationship="GlamoraaModel.FK_CouponUsages_Invoices" FromRole="Invoice" ToRole="CouponUsage" />
+          <NavigationProperty Name="InvoiceProducts" Relationship="GlamoraaModel.FK_InvoiceProducts_Invoices" FromRole="Invoice" ToRole="InvoiceProduct" />
+          <NavigationProperty Name="InvoiceServices" Relationship="GlamoraaModel.FK_InvoiceServices_Invoices" FromRole="Invoice" ToRole="InvoiceService" />
+          <NavigationProperty Name="Payments" Relationship="GlamoraaModel.FK_Payments_Invoices" FromRole="Invoice" ToRole="Payment" />
+        </EntityType>
+        <EntityType Name="Membership">
+          <Key>
+            <PropertyRef Name="MembershipId" />
+          </Key>
+          <Property Name="MembershipId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DiscountPercent" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="ValidFrom" Type="DateTime" Precision="0" />
+          <Property Name="ValidTo" Type="DateTime" Precision="0" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Customers" Relationship="Self.FK_Customers_Memberships" FromRole="Memberships" ToRole="Customers" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="PaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SalonId" Type="Guid" Nullable="false" />
+          <Property Name="BranchId" Type="Guid" />
+          <Property Name="AppointmentId" Type="Guid" />
+          <Property Name="AmountPaid" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="PaymentMode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TokenAdvance" Type="Boolean" />
+          <Property Name="PaidOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Appointment" Relationship="Self.FK_Payments_Appointments" FromRole="Payments" ToRole="Appointments" />
+          <NavigationProperty Name="Branch" Relationship="Self.FK_Payments_Branches" FromRole="Payments" ToRole="Branches" />
+          <NavigationProperty Name="Salon" Relationship="Self.FK_Payments_Salons" FromRole="Payments" ToRole="Salons" />
+          <Property Name="InvoiceId" Type="Guid" />
+          <NavigationProperty Name="Invoice" Relationship="GlamoraaModel.FK_Payments_Invoices" FromRole="Payment" ToRole="Invoice" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Guid" Nullable="false" />
+          <Property Name="SalonId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Category" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AppointmentServiceProducts" Relationship="Self.FK_AppointmentServiceProducts_Products" FromRole="Products" ToRole="AppointmentServiceProducts" />
+          <NavigationProperty Name="Salon" Relationship="Self.FK_Products_Salons" FromRole="Products" ToRole="Salons" />
+          <NavigationProperty Name="ProductStocks" Relationship="Self.FK_ProductStock_Products" FromRole="Products" ToRole="ProductStock" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="SubServiceProducts" Relationship="GlamoraaModel.FK__SubServic__Produ__2F9A1060" FromRole="Product" ToRole="SubServiceProduct" />
+          <NavigationProperty Name="InvoiceProducts" Relationship="GlamoraaModel.FK_InvoiceProducts_Products" FromRole="Product" ToRole="InvoiceProduct" />
+          <NavigationProperty Name="ServiceProducts" Relationship="GlamoraaModel.FK_ServiceProducts_Products" FromRole="Product" ToRole="ServiceProduct" />
+        </EntityType>
+        <EntityType Name="ProductStock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Guid" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="Operation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReferenceId" Type="Guid" />
+          <Property Name="Notes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_ProductStock_Products" FromRole="ProductStock" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_Roles" FromRole="Roles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="SalonOwner">
+          <Key>
+            <PropertyRef Name="OwnerId" />
+          </Key>
+          <Property Name="OwnerId" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ProfilePictureUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="GSTNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OpeningTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="ClosingTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="PasswordHash" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="TermsAccepted" Type="Boolean" Nullable="false" />
+          <Property Name="SubscribeToUpdates" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_SalonOwners_Users" FromRole="SalonOwners" ToRole="Users" />
+          <NavigationProperty Name="Salons" Relationship="Self.FK_Salons_SalonOwners" FromRole="SalonOwners" ToRole="Salons" />
+          <Property Name="SalonName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SalonType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ServicesOffered" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="StreetAddress" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PinCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Salon">
+          <Key>
+            <PropertyRef Name="SalonId" />
+          </Key>
+          <Property Name="SalonId" Type="Guid" Nullable="false" />
+          <Property Name="OwnerId" Type="Guid" />
+          <Property Name="SalonName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointments_Salons" FromRole="Salons" ToRole="Appointments" />
+          <NavigationProperty Name="Branches" Relationship="Self.FK_Branches_Salons" FromRole="Salons" ToRole="Branches" />
+          <NavigationProperty Name="Coupons" Relationship="Self.FK_Coupons_Salons" FromRole="Salons" ToRole="Coupons" />
+          <NavigationProperty Name="Customers" Relationship="Self.FK_Customers_Salons" FromRole="Salons" ToRole="Customers" />
+          <NavigationProperty Name="DailyCashLogs" Relationship="Self.FK_DailyCashLogs_Salons" FromRole="Salons" ToRole="DailyCashLogs" />
+          <NavigationProperty Name="Invoices" Relationship="Self.FK_Invoices_Salons" FromRole="Salons" ToRole="Invoices" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK_Payments_Salons" FromRole="Salons" ToRole="Payments" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_Products_Salons" FromRole="Salons" ToRole="Products" />
+          <NavigationProperty Name="SalonOwner" Relationship="Self.FK_Salons_SalonOwners" FromRole="Salons" ToRole="SalonOwners" />
+          <NavigationProperty Name="Services" Relationship="Self.FK_Services_Salons" FromRole="Salons" ToRole="Services" />
+          <NavigationProperty Name="Staffs" Relationship="Self.FK_Staff_Salons" FromRole="Salons" ToRole="Staff" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_Salons" FromRole="Salons" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="ServiceId" />
+          </Key>
+          <Property Name="ServiceId" Type="Guid" Nullable="false" />
+          <Property Name="SalonId" Type="Guid" Nullable="false" />
+          <Property Name="ServiceName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointments_Services" FromRole="Services" ToRole="Appointments" />
+          <NavigationProperty Name="AppointmentServices" Relationship="Self.FK_AppointmentServices_Services" FromRole="Services" ToRole="AppointmentServices" />
+          <NavigationProperty Name="Salon" Relationship="Self.FK_Services_Salons" FromRole="Services" ToRole="Salons" />
+          <NavigationProperty Name="StaffServices" Relationship="Self.FK_StaffServices_Services" FromRole="Services" ToRole="StaffServices" />
+          <NavigationProperty Name="SubServices" Relationship="Self.FK_SubServices_Services" FromRole="Services" ToRole="SubServices" />
+          <NavigationProperty Name="ServiceProducts" Relationship="GlamoraaModel.FK_ServiceProducts_Services" FromRole="Service" ToRole="ServiceProduct" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="StaffId" />
+          </Key>
+          <Property Name="StaffId" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" />
+          <Property Name="SalonId" Type="Guid" Nullable="false" />
+          <Property Name="BranchId" Type="Guid" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProfilePictureUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Specializations" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="DateOfJoining" Type="DateTime" Precision="0" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointments_Staff" FromRole="Staff" ToRole="Appointments" />
+          <NavigationProperty Name="AppointmentServices" Relationship="Self.FK_AppointmentServices_Staff" FromRole="Staff" ToRole="AppointmentServices" />
+          <NavigationProperty Name="Branch" Relationship="Self.FK_Staff_Branches" FromRole="Staff" ToRole="Branches" />
+          <NavigationProperty Name="Feedbacks" Relationship="Self.FK_Feedback_Staff" FromRole="Staff" ToRole="Feedback" />
+          <NavigationProperty Name="Salon" Relationship="Self.FK_Staff_Salons" FromRole="Staff" ToRole="Salons" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Staff_Users" FromRole="Staff" ToRole="Users" />
+          <NavigationProperty Name="StaffAvailabilityOverrides" Relationship="Self.FK_StaffAvailabilityOverrides_Staff" FromRole="Staff" ToRole="StaffAvailabilityOverrides" />
+          <NavigationProperty Name="StaffServices" Relationship="Self.FK_StaffServices_Staff" FromRole="Staff" ToRole="StaffServices" />
+          <NavigationProperty Name="StaffWorkingHours" Relationship="Self.FK_StaffWorkingHours_Staff" FromRole="Staff" ToRole="StaffWorkingHours" />
+          <NavigationProperty Name="StaffAttendances" Relationship="GlamoraaModel.FK__StaffAtte__Staff__32767D0B" FromRole="Staff" ToRole="StaffAttendance" />
+          <NavigationProperty Name="StaffSubServices" Relationship="GlamoraaModel.FK_StaffSubServices_Staff" FromRole="Staff" ToRole="StaffSubService" />
+        </EntityType>
+        <EntityType Name="StaffAvailabilityOverride">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StaffId" Type="Guid" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
+          <Property Name="Notes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK_StaffAvailabilityOverrides_Staff" FromRole="StaffAvailabilityOverrides" ToRole="Staff" />
+        </EntityType>
+        <EntityType Name="StaffService">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StaffId" Type="Guid" />
+          <Property Name="ServiceId" Type="Guid" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_StaffServices_Services" FromRole="StaffServices" ToRole="Services" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK_StaffServices_Staff" FromRole="StaffServices" ToRole="Staff" />
+        </EntityType>
+        <EntityType Name="StaffWorkingHour">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StaffId" Type="Guid" Nullable="false" />
+          <Property Name="DayOfWeek" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StartTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK_StaffWorkingHours_Staff" FromRole="StaffWorkingHours" ToRole="Staff" />
+        </EntityType>
+        <EntityType Name="SubService">
+          <Key>
+            <PropertyRef Name="SubServiceId" />
+          </Key>
+          <Property Name="SubServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceId" Type="Guid" Nullable="false" />
+          <Property Name="SubServiceName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="DurationMinutes" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointments_SubServices" FromRole="SubServices" ToRole="Appointments" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_SubServices_Services" FromRole="SubServices" ToRole="Services" />
+          <NavigationProperty Name="SubServiceProducts" Relationship="GlamoraaModel.FK__SubServic__SubSe__2EA5EC27" FromRole="SubService" ToRole="SubServiceProduct" />
+          <NavigationProperty Name="StaffSubServices" Relationship="GlamoraaModel.FK_StaffSubServices_SubService" FromRole="SubService" ToRole="StaffSubService" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="SalonId" Type="Guid" />
+          <Property Name="BranchId" Type="Guid" />
+          <Property Name="LastLogin" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ActivityLogs" Relationship="Self.FK_ActivityLogs_Users" FromRole="Users" ToRole="ActivityLogs" />
+          <NavigationProperty Name="Branch" Relationship="Self.FK_Users_Branches" FromRole="Users" ToRole="Branches" />
+          <NavigationProperty Name="DailyCashLogs" Relationship="Self.FK_DailyCashLogs_Users" FromRole="Users" ToRole="DailyCashLogs" />
+          <NavigationProperty Name="Invoices" Relationship="Self.FK_Invoices_Users" FromRole="Users" ToRole="Invoices" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_Users_Roles" FromRole="Users" ToRole="Roles" />
+          <NavigationProperty Name="SalonOwners" Relationship="Self.FK_SalonOwners_Users" FromRole="Users" ToRole="SalonOwners" />
+          <NavigationProperty Name="Salon" Relationship="Self.FK_Users_Salons" FromRole="Users" ToRole="Salons" />
+          <NavigationProperty Name="Staffs" Relationship="Self.FK_Staff_Users" FromRole="Users" ToRole="Staff" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ActivityLogs_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="ActivityLogs" Type="Self.ActivityLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ActivityLogs">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Branches">
+          <End Role="Branches" Type="Self.Branch" Multiplicity="0..1" />
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Customers">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Salons">
+          <End Role="Salons" Type="Self.Salon" Multiplicity="1" />
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Services">
+          <End Role="Services" Type="Self.Service" Multiplicity="1" />
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceId" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_SubServices">
+          <End Role="SubServices" Type="Self.SubService" Multiplicity="1" />
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubServices">
+              <PropertyRef Name="SubServiceId" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="SubServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppointmentServices_Appointments">
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="1" />
+          <End Role="AppointmentServices" Type="Self.AppointmentService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointments">
+              <PropertyRef Name="AppointmentId" />
+            </Principal>
+            <Dependent Role="AppointmentServices">
+              <PropertyRef Name="AppointmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Feedback_Appointments">
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointments">
+              <PropertyRef Name="AppointmentId" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="AppointmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoices_Appointments">
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="0..1" />
+          <End Role="Invoices" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointments">
+              <PropertyRef Name="AppointmentId" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="AppointmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Appointments">
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="0..1" />
+          <End Role="Payments" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointments">
+              <PropertyRef Name="AppointmentId" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="AppointmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppointmentServiceProducts_AppointmentServices">
+          <End Role="AppointmentServices" Type="Self.AppointmentService" Multiplicity="1" />
+          <End Role="AppointmentServiceProducts" Type="Self.AppointmentServiceProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppointmentServices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AppointmentServiceProducts">
+              <PropertyRef Name="AppointmentServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppointmentServiceProducts_Products">
+          <End Role="Products" Type="Self.Product" Multiplicity="1" />
+          <End Role="AppointmentServiceProducts" Type="Self.AppointmentServiceProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="AppointmentServiceProducts">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppointmentServices_Services">
+          <End Role="Services" Type="Self.Service" Multiplicity="1" />
+          <End Role="AppointmentServices" Type="Self.AppointmentService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceId" />
+            </Principal>
+            <Dependent Role="AppointmentServices">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppointmentServices_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="AppointmentServices" Type="Self.AppointmentService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="AppointmentServices">
+              <PropertyRef Name="AssignedStaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Branches_Salons">
+          <End Role="Salons" Type="Self.Salon" Multiplicity="1" />
+          <End Role="Branches" Type="Self.Branch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Branches">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customers_Branches">
+          <End Role="Branches" Type="Self.Branch" Multiplicity="0..1" />
+          <End Role="Customers" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Customers">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DailyCashLogs_Branches">
+          <End Role="Branches" Type="Self.Branch" Multiplicity="0..1" />
+          <End Role="DailyCashLogs" Type="Self.DailyCashLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="DailyCashLogs">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoices_Branches">
+          <End Role="Branches" Type="Self.Branch" Multiplicity="0..1" />
+          <End Role="Invoices" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Branches">
+          <End Role="Branches" Type="Self.Branch" Multiplicity="0..1" />
+          <End Role="Payments" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Staff_Branches">
+          <End Role="Branches" Type="Self.Branch" Multiplicity="0..1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Branches">
+          <End Role="Branches" Type="Self.Branch" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Coupons_Salons">
+          <End Role="Salons" Type="Self.Salon" Multiplicity="1" />
+          <End Role="Coupons" Type="Self.Coupon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Coupons">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customers_Memberships">
+          <End Role="Memberships" Type="Self.Membership" Multiplicity="0..1" />
+          <End Role="Customers" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Memberships">
+              <PropertyRef Name="MembershipId" />
+            </Principal>
+            <Dependent Role="Customers">
+              <PropertyRef Name="MembershipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customers_Salons">
+          <End Role="Salons" Type="Self.Salon" Multiplicity="1" />
+          <End Role="Customers" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Customers">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Feedback_Customers">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoices_Customers">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Invoices" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DailyCashLogs_Salons">
+          <End Role="Salons" Type="Self.Salon" Multiplicity="1" />
+          <End Role="DailyCashLogs" Type="Self.DailyCashLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="DailyCashLogs">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DailyCashLogs_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="DailyCashLogs" Type="Self.DailyCashLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="DailyCashLogs">
+              <PropertyRef Name="RecordedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Feedback_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoices_Salons">
+          <End Role="Salons" Type="Self.Salon" Multiplicity="1" />
+          <End Role="Invoices" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoices_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Invoices" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Salons">
+          <End Role="Salons" Type="Self.Salon" Multiplicity="1" />
+          <End Role="Payments" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_Salons">
+          <End Role="Salons" Type="Self.Salon" Multiplicity="1" />
+          <End Role="Products" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductStock_Products">
+          <End Role="Products" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductStock" Type="Self.ProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductStock">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Roles">
+          <End Role="Roles" Type="Self.Role" Multiplicity="1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalonOwners_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="SalonOwners" Type="Self.SalonOwner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="SalonOwners">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Salons_SalonOwners">
+          <End Role="SalonOwners" Type="Self.SalonOwner" Multiplicity="0..1" />
+          <End Role="Salons" Type="Self.Salon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalonOwners">
+              <PropertyRef Name="OwnerId" />
+            </Principal>
+            <Dependent Role="Salons">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Services_Salons">
+          <End Role="Salons" Type="Self.Salon" Multiplicity="1" />
+          <End Role="Services" Type="Self.Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Services">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Staff_Salons">
+          <End Role="Salons" Type="Self.Salon" Multiplicity="1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Salons">
+          <End Role="Salons" Type="Self.Salon" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salons">
+              <PropertyRef Name="SalonId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="SalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StaffServices_Services">
+          <End Role="Services" Type="Self.Service" Multiplicity="0..1" />
+          <End Role="StaffServices" Type="Self.StaffService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceId" />
+            </Principal>
+            <Dependent Role="StaffServices">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubServices_Services">
+          <End Role="Services" Type="Self.Service" Multiplicity="1" />
+          <End Role="SubServices" Type="Self.SubService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceId" />
+            </Principal>
+            <Dependent Role="SubServices">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Staff_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StaffAvailabilityOverrides_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="StaffAvailabilityOverrides" Type="Self.StaffAvailabilityOverride" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="StaffAvailabilityOverrides">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StaffServices_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="StaffServices" Type="Self.StaffService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="StaffServices">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StaffWorkingHours_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="StaffWorkingHours" Type="Self.StaffWorkingHour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="StaffWorkingHours">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GlamoraaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ActivityLogs" EntityType="Self.ActivityLog" />
+          <EntitySet Name="Appointments" EntityType="Self.Appointment" />
+          <EntitySet Name="AppointmentServiceProducts" EntityType="Self.AppointmentServiceProduct" />
+          <EntitySet Name="AppointmentServices" EntityType="Self.AppointmentService" />
+          <EntitySet Name="Branches" EntityType="Self.Branch" />
+          <EntitySet Name="Coupons" EntityType="Self.Coupon" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="DailyCashLogs" EntityType="Self.DailyCashLog" />
+          <EntitySet Name="Feedbacks" EntityType="Self.Feedback" />
+          <EntitySet Name="Invoices" EntityType="Self.Invoice" />
+          <EntitySet Name="Memberships" EntityType="Self.Membership" />
+          <EntitySet Name="Payments" EntityType="Self.Payment" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="ProductStocks" EntityType="Self.ProductStock" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="SalonOwners" EntityType="Self.SalonOwner" />
+          <EntitySet Name="Salons" EntityType="Self.Salon" />
+          <EntitySet Name="Services" EntityType="Self.Service" />
+          <EntitySet Name="Staffs" EntityType="Self.Staff" />
+          <EntitySet Name="StaffAvailabilityOverrides" EntityType="Self.StaffAvailabilityOverride" />
+          <EntitySet Name="StaffServices" EntityType="Self.StaffService" />
+          <EntitySet Name="StaffWorkingHours" EntityType="Self.StaffWorkingHour" />
+          <EntitySet Name="SubServices" EntityType="Self.SubService" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_ActivityLogs_Users" Association="Self.FK_ActivityLogs_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ActivityLogs" EntitySet="ActivityLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Branches" Association="Self.FK_Appointments_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Customers" Association="Self.FK_Appointments_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Salons" Association="Self.FK_Appointments_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Services" Association="Self.FK_Appointments_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Staff" Association="Self.FK_Appointments_Staff">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_SubServices" Association="Self.FK_Appointments_SubServices">
+            <End Role="SubServices" EntitySet="SubServices" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppointmentServices_Appointments" Association="Self.FK_AppointmentServices_Appointments">
+            <End Role="Appointments" EntitySet="Appointments" />
+            <End Role="AppointmentServices" EntitySet="AppointmentServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_Appointments" Association="Self.FK_Feedback_Appointments">
+            <End Role="Appointments" EntitySet="Appointments" />
+            <End Role="Feedback" EntitySet="Feedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoices_Appointments" Association="Self.FK_Invoices_Appointments">
+            <End Role="Appointments" EntitySet="Appointments" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Appointments" Association="Self.FK_Payments_Appointments">
+            <End Role="Appointments" EntitySet="Appointments" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppointmentServiceProducts_AppointmentServices" Association="Self.FK_AppointmentServiceProducts_AppointmentServices">
+            <End Role="AppointmentServices" EntitySet="AppointmentServices" />
+            <End Role="AppointmentServiceProducts" EntitySet="AppointmentServiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppointmentServiceProducts_Products" Association="Self.FK_AppointmentServiceProducts_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="AppointmentServiceProducts" EntitySet="AppointmentServiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppointmentServices_Services" Association="Self.FK_AppointmentServices_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="AppointmentServices" EntitySet="AppointmentServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppointmentServices_Staff" Association="Self.FK_AppointmentServices_Staff">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="AppointmentServices" EntitySet="AppointmentServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Branches_Salons" Association="Self.FK_Branches_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Branches" EntitySet="Branches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customers_Branches" Association="Self.FK_Customers_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Customers" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DailyCashLogs_Branches" Association="Self.FK_DailyCashLogs_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="DailyCashLogs" EntitySet="DailyCashLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoices_Branches" Association="Self.FK_Invoices_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Branches" Association="Self.FK_Payments_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Staff_Branches" Association="Self.FK_Staff_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Staff" EntitySet="Staffs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Branches" Association="Self.FK_Users_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Coupons_Salons" Association="Self.FK_Coupons_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Coupons" EntitySet="Coupons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customers_Memberships" Association="Self.FK_Customers_Memberships">
+            <End Role="Memberships" EntitySet="Memberships" />
+            <End Role="Customers" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customers_Salons" Association="Self.FK_Customers_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Customers" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_Customers" Association="Self.FK_Feedback_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Feedback" EntitySet="Feedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoices_Customers" Association="Self.FK_Invoices_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DailyCashLogs_Salons" Association="Self.FK_DailyCashLogs_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="DailyCashLogs" EntitySet="DailyCashLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DailyCashLogs_Users" Association="Self.FK_DailyCashLogs_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="DailyCashLogs" EntitySet="DailyCashLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_Staff" Association="Self.FK_Feedback_Staff">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="Feedback" EntitySet="Feedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoices_Salons" Association="Self.FK_Invoices_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoices_Users" Association="Self.FK_Invoices_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Salons" Association="Self.FK_Payments_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Products_Salons" Association="Self.FK_Products_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductStock_Products" Association="Self.FK_ProductStock_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductStock" EntitySet="ProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalonOwners_Users" Association="Self.FK_SalonOwners_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="SalonOwners" EntitySet="SalonOwners" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Salons_SalonOwners" Association="Self.FK_Salons_SalonOwners">
+            <End Role="SalonOwners" EntitySet="SalonOwners" />
+            <End Role="Salons" EntitySet="Salons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_Salons" Association="Self.FK_Services_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Staff_Salons" Association="Self.FK_Staff_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Staff" EntitySet="Staffs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Salons" Association="Self.FK_Users_Salons">
+            <End Role="Salons" EntitySet="Salons" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StaffServices_Services" Association="Self.FK_StaffServices_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="StaffServices" EntitySet="StaffServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubServices_Services" Association="Self.FK_SubServices_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="SubServices" EntitySet="SubServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Staff_Users" Association="Self.FK_Staff_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Staff" EntitySet="Staffs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StaffAvailabilityOverrides_Staff" Association="Self.FK_StaffAvailabilityOverrides_Staff">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="StaffAvailabilityOverrides" EntitySet="StaffAvailabilityOverrides" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StaffServices_Staff" Association="Self.FK_StaffServices_Staff">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="StaffServices" EntitySet="StaffServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StaffWorkingHours_Staff" Association="Self.FK_StaffWorkingHours_Staff">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="StaffWorkingHours" EntitySet="StaffWorkingHours" />
+          </AssociationSet>
+          <EntitySet Name="SubServiceProducts" EntityType="GlamoraaModel.SubServiceProduct" />
+          <AssociationSet Name="FK__SubServic__Produ__2F9A1060" Association="GlamoraaModel.FK__SubServic__Produ__2F9A1060">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="SubServiceProduct" EntitySet="SubServiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SubServic__SubSe__2EA5EC27" Association="GlamoraaModel.FK__SubServic__SubSe__2EA5EC27">
+            <End Role="SubService" EntitySet="SubServices" />
+            <End Role="SubServiceProduct" EntitySet="SubServiceProducts" />
+          </AssociationSet>
+          <EntitySet Name="StaffAttendances" EntityType="GlamoraaModel.StaffAttendance" />
+          <AssociationSet Name="FK__StaffAtte__Staff__32767D0B" Association="GlamoraaModel.FK__StaffAtte__Staff__32767D0B">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="StaffAttendance" EntitySet="StaffAttendances" />
+          </AssociationSet>
+          <EntitySet Name="StaffSubServices" EntityType="GlamoraaModel.StaffSubService" />
+          <AssociationSet Name="FK_StaffSubServices_Staff" Association="GlamoraaModel.FK_StaffSubServices_Staff">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="StaffSubService" EntitySet="StaffSubServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StaffSubServices_SubService" Association="GlamoraaModel.FK_StaffSubServices_SubService">
+            <End Role="SubService" EntitySet="SubServices" />
+            <End Role="StaffSubService" EntitySet="StaffSubServices" />
+          </AssociationSet>
+          <EntitySet Name="CouponUsages" EntityType="GlamoraaModel.CouponUsage" />
+          <EntitySet Name="InvoiceProducts" EntityType="GlamoraaModel.InvoiceProduct" />
+          <EntitySet Name="InvoiceServices" EntityType="GlamoraaModel.InvoiceService" />
+          <EntitySet Name="ServiceProducts" EntityType="GlamoraaModel.ServiceProduct" />
+          <AssociationSet Name="FK_InvoiceServices_AppointmentServices" Association="GlamoraaModel.FK_InvoiceServices_AppointmentServices">
+            <End Role="AppointmentService" EntitySet="AppointmentServices" />
+            <End Role="InvoiceService" EntitySet="InvoiceServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CouponUsages_Coupons" Association="GlamoraaModel.FK_CouponUsages_Coupons">
+            <End Role="Coupon" EntitySet="Coupons" />
+            <End Role="CouponUsage" EntitySet="CouponUsages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CouponUsages_Customers" Association="GlamoraaModel.FK_CouponUsages_Customers">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="CouponUsage" EntitySet="CouponUsages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CouponUsages_Invoices" Association="GlamoraaModel.FK_CouponUsages_Invoices">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="CouponUsage" EntitySet="CouponUsages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceProducts_Invoices" Association="GlamoraaModel.FK_InvoiceProducts_Invoices">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="InvoiceProduct" EntitySet="InvoiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceProducts_Products" Association="GlamoraaModel.FK_InvoiceProducts_Products">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="InvoiceProduct" EntitySet="InvoiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceServices_Invoices" Association="GlamoraaModel.FK_InvoiceServices_Invoices">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="InvoiceService" EntitySet="InvoiceServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Invoices" Association="GlamoraaModel.FK_Payments_Invoices">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceProducts_Products" Association="GlamoraaModel.FK_ServiceProducts_Products">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ServiceProduct" EntitySet="ServiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceProducts_Services" Association="GlamoraaModel.FK_ServiceProducts_Services">
+            <End Role="Service" EntitySet="Services" />
+            <End Role="ServiceProduct" EntitySet="ServiceProducts" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="SubServiceProduct">
+          <Key>
+            <PropertyRef Name="SubServiceId" />
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="SubServiceId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Guid" Nullable="false" />
+          <Property Name="QuantityRequired" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="Product" Relationship="GlamoraaModel.FK__SubServic__Produ__2F9A1060" FromRole="SubServiceProduct" ToRole="Product" />
+          <NavigationProperty Name="SubService" Relationship="GlamoraaModel.FK__SubServic__SubSe__2EA5EC27" FromRole="SubServiceProduct" ToRole="SubService" />
+        </EntityType>
+        <Association Name="FK__SubServic__Produ__2F9A1060">
+          <End Type="GlamoraaModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="GlamoraaModel.SubServiceProduct" Role="SubServiceProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="SubServiceProduct">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SubServic__SubSe__2EA5EC27">
+          <End Type="GlamoraaModel.SubService" Role="SubService" Multiplicity="1" />
+          <End Type="GlamoraaModel.SubServiceProduct" Role="SubServiceProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubService">
+              <PropertyRef Name="SubServiceId" />
+            </Principal>
+            <Dependent Role="SubServiceProduct">
+              <PropertyRef Name="SubServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="StaffAttendance">
+          <Key>
+            <PropertyRef Name="AttendanceId" />
+          </Key>
+          <Property Name="AttendanceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StaffId" Type="Guid" Nullable="false" />
+          <Property Name="AttendanceDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CheckInTime" Type="DateTime" Precision="3" />
+          <Property Name="CheckOutTime" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Notes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Staff" Relationship="GlamoraaModel.FK__StaffAtte__Staff__32767D0B" FromRole="StaffAttendance" ToRole="Staff" />
+        </EntityType>
+        <Association Name="FK__StaffAtte__Staff__32767D0B">
+          <End Type="GlamoraaModel.Staff" Role="Staff" Multiplicity="1" />
+          <End Type="GlamoraaModel.StaffAttendance" Role="StaffAttendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="StaffAttendance">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="StaffSubService">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StaffId" Type="Guid" Nullable="false" />
+          <Property Name="SubServiceId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Staff" Relationship="GlamoraaModel.FK_StaffSubServices_Staff" FromRole="StaffSubService" ToRole="Staff" />
+          <NavigationProperty Name="SubService" Relationship="GlamoraaModel.FK_StaffSubServices_SubService" FromRole="StaffSubService" ToRole="SubService" />
+        </EntityType>
+        <Association Name="FK_StaffSubServices_Staff">
+          <End Type="GlamoraaModel.Staff" Role="Staff" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="GlamoraaModel.StaffSubService" Role="StaffSubService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="StaffSubService">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StaffSubServices_SubService">
+          <End Type="GlamoraaModel.SubService" Role="SubService" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="GlamoraaModel.StaffSubService" Role="StaffSubService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubService">
+              <PropertyRef Name="SubServiceId" />
+            </Principal>
+            <Dependent Role="StaffSubService">
+              <PropertyRef Name="SubServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CouponUsage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CouponId" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceId" Type="Guid" Nullable="false" />
+          <Property Name="CustomerId" Type="Guid" Nullable="false" />
+          <Property Name="UsedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DiscountAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Coupon" Relationship="GlamoraaModel.FK_CouponUsages_Coupons" FromRole="CouponUsage" ToRole="Coupon" />
+          <NavigationProperty Name="Customer" Relationship="GlamoraaModel.FK_CouponUsages_Customers" FromRole="CouponUsage" ToRole="Customer" />
+          <NavigationProperty Name="Invoice" Relationship="GlamoraaModel.FK_CouponUsages_Invoices" FromRole="CouponUsage" ToRole="Invoice" />
+        </EntityType>
+        <EntityType Name="InvoiceProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceId" Type="Guid" Nullable="false" />
+          <Property Name="ProductId" Type="Guid" Nullable="false" />
+          <Property Name="StaffId" Type="Guid" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="GstRatePercent" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <NavigationProperty Name="Invoice" Relationship="GlamoraaModel.FK_InvoiceProducts_Invoices" FromRole="InvoiceProduct" ToRole="Invoice" />
+          <NavigationProperty Name="Product" Relationship="GlamoraaModel.FK_InvoiceProducts_Products" FromRole="InvoiceProduct" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="InvoiceService">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceId" Type="Guid" Nullable="false" />
+          <Property Name="AppointmentServiceId" Type="Int32" Nullable="false" />
+          <Property Name="StaffId" Type="Guid" Nullable="false" />
+          <Property Name="PriceAtBooking" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="GstRatePercent" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <NavigationProperty Name="AppointmentService" Relationship="GlamoraaModel.FK_InvoiceServices_AppointmentServices" FromRole="InvoiceService" ToRole="AppointmentService" />
+          <NavigationProperty Name="Invoice" Relationship="GlamoraaModel.FK_InvoiceServices_Invoices" FromRole="InvoiceService" ToRole="Invoice" />
+        </EntityType>
+        <EntityType Name="ServiceProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceId" Type="Guid" Nullable="false" />
+          <Property Name="ProductId" Type="Guid" Nullable="false" />
+          <Property Name="IsDefault" Type="Boolean" Nullable="false" />
+          <Property Name="DefaultQty" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Product" Relationship="GlamoraaModel.FK_ServiceProducts_Products" FromRole="ServiceProduct" ToRole="Product" />
+          <NavigationProperty Name="Service" Relationship="GlamoraaModel.FK_ServiceProducts_Services" FromRole="ServiceProduct" ToRole="Service" />
+        </EntityType>
+        <Association Name="FK_InvoiceServices_AppointmentServices">
+          <End Type="GlamoraaModel.AppointmentService" Role="AppointmentService" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="GlamoraaModel.InvoiceService" Role="InvoiceService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppointmentService">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvoiceService">
+              <PropertyRef Name="AppointmentServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CouponUsages_Coupons">
+          <End Type="GlamoraaModel.Coupon" Role="Coupon" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="GlamoraaModel.CouponUsage" Role="CouponUsage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coupon">
+              <PropertyRef Name="CouponId" />
+            </Principal>
+            <Dependent Role="CouponUsage">
+              <PropertyRef Name="CouponId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CouponUsages_Customers">
+          <End Type="GlamoraaModel.Customer" Role="Customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="GlamoraaModel.CouponUsage" Role="CouponUsage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="CouponUsage">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CouponUsages_Invoices">
+          <End Type="GlamoraaModel.Invoice" Role="Invoice" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="GlamoraaModel.CouponUsage" Role="CouponUsage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="InvoiceId" />
+            </Principal>
+            <Dependent Role="CouponUsage">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceProducts_Invoices">
+          <End Type="GlamoraaModel.Invoice" Role="Invoice" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="GlamoraaModel.InvoiceProduct" Role="InvoiceProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="InvoiceId" />
+            </Principal>
+            <Dependent Role="InvoiceProduct">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceProducts_Products">
+          <End Type="GlamoraaModel.Product" Role="Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="GlamoraaModel.InvoiceProduct" Role="InvoiceProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="InvoiceProduct">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceServices_Invoices">
+          <End Type="GlamoraaModel.Invoice" Role="Invoice" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="GlamoraaModel.InvoiceService" Role="InvoiceService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="InvoiceId" />
+            </Principal>
+            <Dependent Role="InvoiceService">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Invoices">
+          <End Type="GlamoraaModel.Invoice" Role="Invoice" Multiplicity="0..1" />
+          <End Type="GlamoraaModel.Payment" Role="Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="InvoiceId" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceProducts_Products">
+          <End Type="GlamoraaModel.Product" Role="Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="GlamoraaModel.ServiceProduct" Role="ServiceProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ServiceProduct">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceProducts_Services">
+          <End Type="GlamoraaModel.Service" Role="Service" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="GlamoraaModel.ServiceProduct" Role="ServiceProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ServiceId" />
+            </Principal>
+            <Dependent Role="ServiceProduct">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GlamoraaModelStoreContainer" CdmEntityContainer="GlamoraaEntities">
+          <EntitySetMapping Name="ActivityLogs">
+            <EntityTypeMapping TypeName="GlamoraaModel.ActivityLog">
+              <MappingFragment StoreEntitySet="ActivityLogs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Appointments">
+            <EntityTypeMapping TypeName="GlamoraaModel.Appointment">
+              <MappingFragment StoreEntitySet="Appointments">
+                <ScalarProperty Name="AppointmentId" ColumnName="AppointmentId" />
+                <ScalarProperty Name="SalonId" ColumnName="SalonId" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="SubServiceId" ColumnName="SubServiceId" />
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="PreferredDate" ColumnName="PreferredDate" />
+                <ScalarProperty Name="PreferredTime" ColumnName="PreferredTime" />
+                <ScalarProperty Name="SpecialRequests" ColumnName="SpecialRequests" />
+                <ScalarProperty Name="FullAmount" ColumnName="FullAmount" />
+                <ScalarProperty Name="AdvancePaid" ColumnName="AdvancePaid" />
+                <ScalarProperty Name="CouponCode" ColumnName="CouponCode" />
+                <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AppointmentServiceProducts">
+            <EntityTypeMapping TypeName="GlamoraaModel.AppointmentServiceProduct">
+              <MappingFragment StoreEntitySet="AppointmentServiceProducts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AppointmentServiceId" ColumnName="AppointmentServiceId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AppointmentServices">
+            <EntityTypeMapping TypeName="GlamoraaModel.AppointmentService">
+              <MappingFragment StoreEntitySet="AppointmentServices">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AppointmentId" ColumnName="AppointmentId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="AssignedStaffId" ColumnName="AssignedStaffId" />
+                <ScalarProperty Name="PriceAtBooking" ColumnName="PriceAtBooking" />
+                <ScalarProperty Name="EstimatedDurationMins" ColumnName="EstimatedDurationMins" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Branches">
+            <EntityTypeMapping TypeName="GlamoraaModel.Branch">
+              <MappingFragment StoreEntitySet="Branches">
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="SalonId" ColumnName="SalonId" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Coupons">
+            <EntityTypeMapping TypeName="GlamoraaModel.Coupon">
+              <MappingFragment StoreEntitySet="Coupons">
+                <ScalarProperty Name="CouponId" ColumnName="CouponId" />
+                <ScalarProperty Name="SalonId" ColumnName="SalonId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+                <ScalarProperty Name="IsPercentage" ColumnName="IsPercentage" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="GlamoraaModel.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="SalonId" ColumnName="SalonId" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="IsMember" ColumnName="IsMember" />
+                <ScalarProperty Name="LastVisitDate" ColumnName="LastVisitDate" />
+                <ScalarProperty Name="AmountSpent" ColumnName="AmountSpent" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="LoyaltyPoints" ColumnName="LoyaltyPoints" />
+                <ScalarProperty Name="MembershipId" ColumnName="MembershipId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DailyCashLogs">
+            <EntityTypeMapping TypeName="GlamoraaModel.DailyCashLog">
+              <MappingFragment StoreEntitySet="DailyCashLogs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SalonId" ColumnName="SalonId" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="OpeningCash" ColumnName="OpeningCash" />
+                <ScalarProperty Name="ClosingCash" ColumnName="ClosingCash" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="RecordedBy" ColumnName="RecordedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Feedbacks">
+            <EntityTypeMapping TypeName="GlamoraaModel.Feedback">
+              <MappingFragment StoreEntitySet="Feedback">
+                <ScalarProperty Name="FeedbackId" ColumnName="FeedbackId" />
+                <ScalarProperty Name="AppointmentId" ColumnName="AppointmentId" />
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="GlamoraaModel.Invoice">
+              <MappingFragment StoreEntitySet="Invoices">
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="SalonId" ColumnName="SalonId" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="AppointmentId" ColumnName="AppointmentId" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Memberships">
+            <EntityTypeMapping TypeName="GlamoraaModel.Membership">
+              <MappingFragment StoreEntitySet="Memberships">
+                <ScalarProperty Name="MembershipId" ColumnName="MembershipId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="GlamoraaModel.Payment">
+              <MappingFragment StoreEntitySet="Payments">
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+                <ScalarProperty Name="SalonId" ColumnName="SalonId" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="AppointmentId" ColumnName="AppointmentId" />
+                <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="TokenAdvance" ColumnName="TokenAdvance" />
+                <ScalarProperty Name="PaidOn" ColumnName="PaidOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="GlamoraaModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="SalonId" ColumnName="SalonId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductStocks">
+            <EntityTypeMapping TypeName="GlamoraaModel.ProductStock">
+              <MappingFragment StoreEntitySet="ProductStock">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="Operation" ColumnName="Operation" />
+                <ScalarProperty Name="ReferenceId" ColumnName="ReferenceId" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="GlamoraaModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalonOwners">
+            <EntityTypeMapping TypeName="GlamoraaModel.SalonOwner">
+              <MappingFragment StoreEntitySet="SalonOwners">
+                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+                <ScalarProperty Name="ServicesOffered" ColumnName="ServicesOffered" />
+                <ScalarProperty Name="SalonType" ColumnName="SalonType" />
+                <ScalarProperty Name="SalonName" ColumnName="SalonName" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="ProfilePictureUrl" ColumnName="ProfilePictureUrl" />
+                <ScalarProperty Name="GSTNumber" ColumnName="GSTNumber" />
+                <ScalarProperty Name="OpeningTime" ColumnName="OpeningTime" />
+                <ScalarProperty Name="ClosingTime" ColumnName="ClosingTime" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="TermsAccepted" ColumnName="TermsAccepted" />
+                <ScalarProperty Name="SubscribeToUpdates" ColumnName="SubscribeToUpdates" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Salons">
+            <EntityTypeMapping TypeName="GlamoraaModel.Salon">
+              <MappingFragment StoreEntitySet="Salons">
+                <ScalarProperty Name="SalonId" ColumnName="SalonId" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="SalonName" ColumnName="SalonName" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="GlamoraaModel.Service">
+              <MappingFragment StoreEntitySet="Services">
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="SalonId" ColumnName="SalonId" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Staffs">
+            <EntityTypeMapping TypeName="GlamoraaModel.Staff">
+              <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="SalonId" ColumnName="SalonId" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ProfilePictureUrl" ColumnName="ProfilePictureUrl" />
+                <ScalarProperty Name="Specializations" ColumnName="Specializations" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="DateOfJoining" ColumnName="DateOfJoining" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StaffAvailabilityOverrides">
+            <EntityTypeMapping TypeName="GlamoraaModel.StaffAvailabilityOverride">
+              <MappingFragment StoreEntitySet="StaffAvailabilityOverrides">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StaffServices">
+            <EntityTypeMapping TypeName="GlamoraaModel.StaffService">
+              <MappingFragment StoreEntitySet="StaffServices">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StaffWorkingHours">
+            <EntityTypeMapping TypeName="GlamoraaModel.StaffWorkingHour">
+              <MappingFragment StoreEntitySet="StaffWorkingHours">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubServices">
+            <EntityTypeMapping TypeName="GlamoraaModel.SubService">
+              <MappingFragment StoreEntitySet="SubServices">
+                <ScalarProperty Name="SubServiceId" ColumnName="SubServiceId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="SubServiceName" ColumnName="SubServiceName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="DurationMinutes" ColumnName="DurationMinutes" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="GlamoraaModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="SalonId" ColumnName="SalonId" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubServiceProducts">
+            <EntityTypeMapping TypeName="GlamoraaModel.SubServiceProduct">
+              <MappingFragment StoreEntitySet="SubServiceProducts">
+                <ScalarProperty Name="QuantityRequired" ColumnName="QuantityRequired" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="SubServiceId" ColumnName="SubServiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StaffAttendances">
+            <EntityTypeMapping TypeName="GlamoraaModel.StaffAttendance">
+              <MappingFragment StoreEntitySet="StaffAttendance">
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CheckOutTime" ColumnName="CheckOutTime" />
+                <ScalarProperty Name="CheckInTime" ColumnName="CheckInTime" />
+                <ScalarProperty Name="AttendanceDate" ColumnName="AttendanceDate" />
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="AttendanceId" ColumnName="AttendanceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StaffSubServices">
+            <EntityTypeMapping TypeName="GlamoraaModel.StaffSubService">
+              <MappingFragment StoreEntitySet="StaffSubServices">
+                <ScalarProperty Name="SubServiceId" ColumnName="SubServiceId" />
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CouponUsages">
+            <EntityTypeMapping TypeName="GlamoraaModel.CouponUsage">
+              <MappingFragment StoreEntitySet="CouponUsages">
+                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+                <ScalarProperty Name="UsedOn" ColumnName="UsedOn" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="CouponId" ColumnName="CouponId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceProducts">
+            <EntityTypeMapping TypeName="GlamoraaModel.InvoiceProduct">
+              <MappingFragment StoreEntitySet="InvoiceProducts">
+                <ScalarProperty Name="GstRatePercent" ColumnName="GstRatePercent" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceServices">
+            <EntityTypeMapping TypeName="GlamoraaModel.InvoiceService">
+              <MappingFragment StoreEntitySet="InvoiceServices">
+                <ScalarProperty Name="GstRatePercent" ColumnName="GstRatePercent" />
+                <ScalarProperty Name="PriceAtBooking" ColumnName="PriceAtBooking" />
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="AppointmentServiceId" ColumnName="AppointmentServiceId" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceProducts">
+            <EntityTypeMapping TypeName="GlamoraaModel.ServiceProduct">
+              <MappingFragment StoreEntitySet="ServiceProducts">
+                <ScalarProperty Name="DefaultQty" ColumnName="DefaultQty" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salon Invoice System</title>
+
+    <link href="../../../Asset/CSS/admin/invoice.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Main Invoice Page -->
+    <div id="mainPage" class="page active">
+        <div class="header">
+            <h1>SALON INVOICE</h1>
+            <div class="header-buttons">
+                <button class="btn btn-secondary" onclick="showPreviousInvoices()">Previous Invoices</button>
+                <button class="btn btn-primary" onclick="createNewInvoice()">Create New</button>
+                <button class="btn btn-secondary" onclick="saveInvoice()">Save</button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="invoice-layout">
+                <!-- Client Information Form -->
+                <div class="section">
+                    <h2>Client Information</h2>
+                    <div class="form-group">
+                        <label>Client Phone</label>
+                        <input type="tel" id="clientPhone" placeholder="Enter phone number" oninput="updateClientDisplay()">
+                    </div>
+                    <div class="form-group">
+                        <label>Client Name</label>
+                        <input type="text" id="clientName" placeholder="Enter client name" oninput="updateClientDisplay()">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="clientEmail" placeholder="Enter email address" oninput="updateClientDisplay()">
+                    </div>
+
+                    <!-- Services Dropdown -->
+                    <div class="form-group">
+                        <label>Quick Add Services</label>
+                        <select id="servicesDropdown" class="services-dropdown" onchange="addServiceFromDropdown()">
+                            <option value="">Select a service to add...</option>
+                        </select>
+                    </div>
+
+                    <!-- Products Dropdown -->
+                    <div class="form-group">
+                        <label>Add Products</label>
+                        <select id="productsDropdown" class="products-dropdown" onchange="addProductFromDropdown()">
+                            <option value="">Select a product to add...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Invoice Details & Client Display -->
+                <div class="client-display">
+                    <h2>Invoice Details</h2>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="invoiceDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Invoice Number</label>
+                        <input type="text" id="invoiceNumber" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Assigned Stylist</label>
+                        <select id="stylist">
+                            <option value="">Loading...</option>
+                        </select>
+                    </div>
+
+                    <div id="clientDisplayInfo" style="margin-top: 20px;">
+                        <h3>Client Information</h3>
+                        <div class="client-info-display">
+                            <strong>Phone:</strong>
+                            <span id="displayPhone">Not provided</span>
+                        </div>
+                        <div class="client-info-display">
+                            <strong>Name:</strong>
+                            <span id="displayName">Not provided</span>
+                        </div>
+                        <div class="client-info-display">
+                            <strong>Email:</strong>
+                            <span id="displayEmail">Not provided</span>
+                        </div>
+
+                        <!-- Services Display -->
+                        <div class="services-display" id="servicesDisplay" style="display: none;">
+                            <strong style="color: #764ba2; font-size: 16px; margin-bottom: 15px; display: block;">Selected Services:</strong>
+                            <div class="services-list" id="servicesListDisplay"></div>
+                            <div class="services-total" id="servicesTotalDisplay">
+                                Total: ₹0
+                            </div>
+                        </div>
+
+                        <!-- Products Display -->
+                        <div class="products-display" id="productsDisplay" style="display: none;">
+                            <strong style="color: #764ba2; font-size: 16px; margin-bottom: 15px; display: block;">Selected Products:</strong>
+                            <div class="products-list" id="productsListDisplay"></div>
+                            <div class="products-total" id="productsTotalDisplay">
+                                Total: ₹0
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Previous Invoices Page -->
+    <div id="previousInvoicesPage" class="page">
+        <div class="header">
+            <h1>Previous Invoices</h1>
+            <div class="header-buttons">
+                <button class="btn btn-secondary" onclick="showMainPage()">← Back to Main</button>
+                <button class="btn btn-primary" onclick="exportInvoices()">Export</button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <h2 style="color: #6d9fe5; margin-bottom: 20px;">Invoice History</h2>
+
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th>Invoice #</th>
+                        <th>Date</th>
+                        <th>Client Name</th>
+                        <th>Services</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="invoiceTableBody">
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 20px;">Loading invoices...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let selectedServices = [];
+        let selectedProducts = [];
+        let currentCustomer = null;
+        let staffList = [];
+        let servicesList = [];
+        let productsList = [];
+
+        // API Base URL
+        const API_BASE = '/api/invoices';
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeApp();
+        });
+
+        async function initializeApp() {
+            try {
+                // Set today's date
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('invoiceDate').value = today;
+
+                // Load initial data
+                await Promise.all([
+                    loadServices(),
+                    loadProducts(),
+                    loadStaff(),
+                    loadNextInvoiceNumber(),
+                    loadPreviousInvoices()
+                ]);
+
+                console.log('Application initialized successfully');
+            } catch (error) {
+                console.error('Error initializing application:', error);
+                showError('Failed to initialize application');
+            }
+        }
+
+        // Load services from API
+        async function loadServices() {
+            try {
+                const response = await fetch(`${API_BASE}/services`);
+                if (!response.ok) throw new Error('Failed to load services');
+
+                servicesList = await response.json();
+                populateServicesDropdown();
+            } catch (error) {
+                console.error('Error loading services:', error);
+                showError('Failed to load services');
+            }
+        }
+
+        // Load products from API
+        async function loadProducts() {
+            try {
+                const response = await fetch(`${API_BASE}/products`);
+                if (!response.ok) throw new Error('Failed to load products');
+
+                productsList = await response.json();
+                populateProductsDropdown();
+            } catch (error) {
+                console.error('Error loading products:', error);
+                showError('Failed to load products');
+            }
+        }
+
+        // Load staff from API
+        async function loadStaff() {
+            try {
+                const response = await fetch(`${API_BASE}/staff`);
+                if (!response.ok) throw new Error('Failed to load staff');
+
+                staffList = await response.json();
+                populateStaffDropdown();
+            } catch (error) {
+                console.error('Error loading staff:', error);
+                showError('Failed to load staff');
+            }
+        }
+
+        // Load next invoice number
+        async function loadNextInvoiceNumber() {
+            try {
+                const response = await fetch(`${API_BASE}/next-number`);
+                if (!response.ok) throw new Error('Failed to load invoice number');
+
+                const data = await response.json();
+                document.getElementById('invoiceNumber').value = data.InvoiceNumber;
+            } catch (error) {
+                console.error('Error loading invoice number:', error);
+                showError('Failed to load invoice number');
+            }
+        }
+
+        // Search customer by phone
+        async function searchCustomerByPhone() {
+            const phone = document.getElementById('clientPhone').value.trim();
+            if (!phone) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/customer/${encodeURIComponent(phone)}`);
+
+                if (response.ok) {
+                    currentCustomer = await response.json();
+                    populateCustomerData();
+                } else if (response.status === 404) {
+                    currentCustomer = null;
+                    document.getElementById('clientName').value = '';
+                    document.getElementById('clientEmail').value = '';
+                    showInfo('Customer not found. Please enter new customer details.');
+                } else {
+                    throw new Error('Failed to search customer');
+                }
+            } catch (error) {
+                console.error('Error searching customer:', error);
+                showError('Failed to search customer');
+            }
+        }
+
+        // Populate customer data
+        function populateCustomerData() {
+            if (!currentCustomer) return;
+
+            document.getElementById('clientName').value = currentCustomer.FullName || '';
+            document.getElementById('clientEmail').value = currentCustomer.Email || '';
+            updateClientDisplay();
+        }
+
+        // Populate services dropdown
+        function populateServicesDropdown() {
+            const dropdown = document.getElementById('servicesDropdown');
+            dropdown.innerHTML = '<option value="">Select a service to add...</option>';
+
+            servicesList.forEach(service => {
+                service.SubServices.forEach(subService => {
+                    const option = document.createElement('option');
+                    option.value = JSON.stringify({
+                        serviceId: service.ServiceId,
+                        subServiceId: subService.SubServiceId,
+                        name: `${service.ServiceName} - ${subService.SubServiceName}`,
+                        price: subService.Price
+                    });
+                    option.textContent = `${service.ServiceName} - ${subService.SubServiceName} - ₹${subService.Price}`;
+                    dropdown.appendChild(option);
+                });
+            });
+        }
+
+        // Populate products dropdown
+        function populateProductsDropdown() {
+            const dropdown = document.getElementById('productsDropdown');
+            dropdown.innerHTML = '<option value="">Select a product to add...</option>';
+
+            productsList.forEach(product => {
+                const option = document.createElement('option');
+                option.value = JSON.stringify({
+                    productId: product.ProductId,
+                    name: product.Name,
+                    price: product.Price,
+                    stockQuantity: product.StockQuantity
+                });
+                option.textContent = `${product.Name} - ₹${product.Price} (Stock: ${product.StockQuantity})`;
+                dropdown.appendChild(option);
+            });
+        }
+
+        // Populate staff dropdown
+        function populateStaffDropdown() {
+            const dropdown = document.getElementById('stylist');
+            dropdown.innerHTML = '';
+
+            staffList.forEach(staff => {
+                const option = document.createElement('option');
+                option.value = staff.StaffId;
+                option.textContent = staff.FullName;
+                dropdown.appendChild(option);
+            });
+        }
+
+        // Add service from dropdown
+        function addServiceFromDropdown() {
+            const dropdown = document.getElementById('servicesDropdown');
+            const selectedValue = dropdown.value;
+
+            if (selectedValue) {
+                const serviceData = JSON.parse(selectedValue);
+
+                const existingService = selectedServices.find(service =>
+                    service.serviceId === serviceData.serviceId &&
+                    service.subServiceId === serviceData.subServiceId
+                );
+
+                if (existingService) {
+                    showError('This service is already added!');
+                    dropdown.value = '';
+                    return;
+                }
+
+                selectedServices.push({
+                    serviceId: serviceData.serviceId,
+                    subServiceId: serviceData.subServiceId,
+                    name: serviceData.name,
+                    price: serviceData.price,
+                    gstRate: 18
+                });
+
+                dropdown.value = '';
+                updateServicesDisplay();
+            }
+        }
+
+        // Add product from dropdown
+        function addProductFromDropdown() {
+            const dropdown = document.getElementById('productsDropdown');
+            const selectedValue = dropdown.value;
+
+            if (selectedValue) {
+                const productData = JSON.parse(selectedValue);
+
+                const existingProduct = selectedProducts.find(product =>
+                    product.productId === productData.productId
+                );
+
+                if (existingProduct) {
+                    showError('This product is already added!');
+                    dropdown.value = '';
+                    return;
+                }
+
+                selectedProducts.push({
+                    productId: productData.productId,
+                    name: productData.name,
+                    price: productData.price,
+                    quantity: 1,
+                    gstRate: 18
+                });
+
+                dropdown.value = '';
+                updateProductsDisplay();
+            }
+        }
+
+        // Update services display
+        function updateServicesDisplay() {
+            const servicesDisplay = document.getElementById('servicesDisplay');
+            const servicesListDisplay = document.getElementById('servicesListDisplay');
+            const servicesTotalDisplay = document.getElementById('servicesTotalDisplay');
+
+            if (selectedServices.length > 0) {
+                servicesDisplay.style.display = 'block';
+
+                let servicesHTML = '';
+                let total = 0;
+
+                selectedServices.forEach((service, index) => {
+                    total += service.price;
+                    servicesHTML += `
+                            <div class="service-item">
+                                <span class="service-name">${service.name}</span>
+                                <div>
+                                    <span class="service-price">₹${service.price}</span>
+                                    <button class="remove-service" onclick="removeService(${index})">×</button>
+                                </div>
+                            </div>
+                        `;
+                });
+
+                servicesListDisplay.innerHTML = servicesHTML;
+                servicesTotalDisplay.innerHTML = `Total: ₹${total}`;
+            } else {
+                servicesDisplay.style.display = 'none';
+            }
+        }
+
+        // Update products display
+        function updateProductsDisplay() {
+            const productsDisplay = document.getElementById('productsDisplay');
+            const productsListDisplay = document.getElementById('productsListDisplay');
+            const productsTotalDisplay = document.getElementById('productsTotalDisplay');
+
+            if (selectedProducts.length > 0) {
+                productsDisplay.style.display = 'block';
+
+                let productsHTML = '';
+                let total = 0;
+
+                selectedProducts.forEach((product, index) => {
+                    const lineTotal = product.price * product.quantity;
+                    total += lineTotal;
+                    productsHTML += `
+                            <div class="product-item">
+                                <span class="product-name">${product.name}</span>
+                                <input type="number" min="1" value="${product.quantity}"
+                                       onchange="updateProductQuantity(${index}, this.value)" style="width: 60px;">
+                                <span class="product-price">₹${product.price} × ${product.quantity} = ₹${lineTotal}</span>
+                                <button class="remove-product" onclick="removeProduct(${index})">×</button>
+                            </div>
+                        `;
+                });
+
+                productsListDisplay.innerHTML = productsHTML;
+                productsTotalDisplay.innerHTML = `Total: ₹${total}`;
+            } else {
+                productsDisplay.style.display = 'none';
+            }
+        }
+
+        // Remove service
+        function removeService(index) {
+            selectedServices.splice(index, 1);
+            updateServicesDisplay();
+        }
+
+        // Remove product
+        function removeProduct(index) {
+            selectedProducts.splice(index, 1);
+            updateProductsDisplay();
+        }
+
+        // Update product quantity
+        function updateProductQuantity(index, quantity) {
+            selectedProducts[index].quantity = parseInt(quantity) || 1;
+            updateProductsDisplay();
+        }
+
+        // Create new invoice
+        async function createNewInvoice() {
+            document.getElementById('clientPhone').value = '';
+            document.getElementById('clientName').value = '';
+            document.getElementById('clientEmail').value = '';
+            selectedServices = [];
+            selectedProducts = [];
+            currentCustomer = null;
+
+            updateClientDisplay();
+            updateServicesDisplay();
+            updateProductsDisplay();
+
+            await loadNextInvoiceNumber();
+        }
+
+        // Save invoice
+        async function saveInvoice() {
+            const clientName = document.getElementById('clientName').value.trim();
+            const clientPhone = document.getElementById('clientPhone').value.trim();
+            const clientEmail = document.getElementById('clientEmail').value.trim();
+            const stylistId = document.getElementById('stylist').value;
+
+            if (!clientName || !clientPhone) {
+                showError('Please fill in client name and phone number.');
+                return;
+            }
+
+            if (selectedServices.length === 0 && selectedProducts.length === 0) {
+                showError('Please add at least one service or product.');
+                return;
+            }
+
+            try {
+                // Create customer if doesn't exist
+                let customerId = currentCustomer ? currentCustomer.CustomerId : null;
+
+                if (!customerId) {
+                    // Create new customer
+                    const customerData = {
+                        FullName: clientName,
+                        PhoneNumber: clientPhone,
+                        Email: clientEmail
+                    };
+
+                    const customerResponse = await fetch('/api/customers', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(customerData)
+                    });
+
+                    if (customerResponse.ok) {
+                        const newCustomer = await customerResponse.json();
+                        customerId = newCustomer.CustomerId;
+                    }
+                }
+
+                const invoiceData = {
+                    CustomerId: customerId,
+                    AppointmentId: null,
+                    Services: selectedServices.map(service => ({
+                        AppointmentServiceId: service.subServiceId,
+                        StaffId: stylistId,
+                        PriceAtBooking: service.price,
+                        GstRatePercent: service.gstRate
+                    })),
+                    Products: selectedProducts.map(product => ({
+                        ProductId: product.productId,
+                        StaffId: stylistId,
+                        Quantity: product.quantity,
+                        UnitPrice: product.price,
+                        GstRatePercent: product.gstRate
+                    })),
+                    CouponCode: '',
+                    TokenPaid: 0,
+                    CreatedBy: '00000000-0000-0000-0000-000000000001'
+                };
+
+                const response = await fetch(API_BASE, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(invoiceData)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Server response:', errorText);
+                    throw new Error(`Server error: ${response.status} - ${errorText}`);
+                }
+
+                const createdInvoice = await response.json();
+                showSuccess(`Invoice created successfully! Invoice ID: ${createdInvoice.InvoiceId}`);
+
+                await loadPreviousInvoices();
+                await createNewInvoice();
+
+            } catch (error) {
+                console.error('Error creating invoice:', error);
+                showError('Failed to create invoice: ' + error.message);
+            }
+        }
+
+        // Load previous invoices
+        async function loadPreviousInvoices() {
+            try {
+                const response = await fetch(API_BASE);
+                if (!response.ok) throw new Error('Failed to load invoices');
+
+                const invoices = await response.json();
+                updateInvoiceTable(invoices);
+            } catch (error) {
+                console.error('Error loading invoices:', error);
+                showError('Failed to load invoices');
+            }
+        }
+
+        // Update invoice table
+        function updateInvoiceTable(invoices) {
+            const tableBody = document.getElementById('invoiceTableBody');
+
+            if (!invoices || invoices.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">No invoices found</td></tr>';
+                return;
+            }
+
+            let tableHTML = '';
+
+            invoices.forEach(invoice => {
+                const date = new Date(invoice.InvoiceDate).toLocaleDateString();
+                const statusClass = invoice.PaymentStatus.toLowerCase() === 'paid' ? 'status-paid' : 'status-pending';
+                const services = invoice.Services ? invoice.Services.join(', ') : 'N/A';
+
+                tableHTML += `
+                        <tr>
+                            <td>${invoice.InvoiceId}</td>
+                            <td>${date}</td>
+                            <td>${invoice.CustomerName}</td>
+                            <td>${services}</td>
+                            <td>₹${invoice.TotalAmount}</td>
+                            <td><span class="status-badge ${statusClass}">${invoice.PaymentStatus}</span></td>
+                            <td>
+                                <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;"
+                                        onclick="viewInvoice('${invoice.InvoiceId}')">View</button>
+                            </td>
+                        </tr>
+                    `;
+            });
+
+            tableBody.innerHTML = tableHTML;
+        }
+
+        // View invoice details
+        async function viewInvoice(invoiceId) {
+            try {
+                const response = await fetch(`${API_BASE}/${invoiceId}`);
+                if (!response.ok) throw new Error('Failed to load invoice details');
+
+                const invoice = await response.json();
+
+                const services = invoice.ServiceLines ? invoice.ServiceLines.map(s => s.ServiceName).join(', ') : 'N/A';
+                const products = invoice.ProductLines ? invoice.ProductLines.map(p => `${p.ProductName} (${p.Quantity})`).join(', ') : 'N/A';
+
+                alert(`Invoice Details:\n\nInvoice ID: ${invoice.InvoiceId}\nDate: ${new Date(invoice.InvoiceDate).toLocaleDateString()}\nServices: ${services}\nProducts: ${products}\nSubtotal: ₹${invoice.SubTotal}\nDiscount: ₹${invoice.Discount}\nTax: ₹${invoice.TaxAmount}\nTotal: ₹${invoice.TotalAmount}`);
+
+            } catch (error) {
+                console.error('Error viewing invoice:', error);
+                showError('Failed to load invoice details');
+            }
+        }
+
+        // Page navigation
+        function showPreviousInvoices() {
+            document.getElementById('mainPage').classList.remove('active');
+            document.getElementById('previousInvoicesPage').classList.add('active');
+        }
+
+        function showMainPage() {
+            document.getElementById('previousInvoicesPage').classList.remove('active');
+            document.getElementById('mainPage').classList.add('active');
+        }
+
+        // Client display update
+        function updateClientDisplay() {
+            const phone = document.getElementById('clientPhone').value || 'Not provided';
+            const name = document.getElementById('clientName').value || 'Not provided';
+            const email = document.getElementById('clientEmail').value || 'Not provided';
+
+            document.getElementById('displayPhone').textContent = phone;
+            document.getElementById('displayName').textContent = name;
+            document.getElementById('displayEmail').textContent = email;
+        }
+
+        // Utility functions
+        function showError(message) {
+            alert('Error: ' + message);
+        }
+
+        function showSuccess(message) {
+            alert('Success: ' + message);
+        }
+
+        function showInfo(message) {
+            alert('Info: ' + message);
+        }
+
+        function exportInvoices() {
+            showInfo('Export functionality coming soon!');
+        }
+
+        // Event listeners
+        document.getElementById('clientPhone').addEventListener('blur', searchCustomerByPhone);
+        document.getElementById('clientPhone').addEventListener('input', updateClientDisplay);
+        document.getElementById('clientName').addEventListener('input', updateClientDisplay);
+        document.getElementById('clientEmail').addEventListener('input', updateClientDisplay);
+    </script>
+</body>
+</html>

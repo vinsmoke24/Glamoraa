@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Glamora Salon Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <link href="../../../Asset/CSS/admin/style.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo">
+                <span class="logo-text">GLAMORAA</span>
+            </div>
+        </div>
+        
+        <div class="header-center">
+            <select>
+                <option>International Beauty Academy-IBT</option>
+            </select>
+        </div>
+        
+        <div class="header-right">
+            <div class="phone-info">
+                <i class="fas fa-phone"></i>
+                <span>7218095741</span>
+            </div>
+            <span>Abhishek</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <ul class="nav-menu">
+            <li class="nav-item" data-tooltip="Calendar">
+                <a href="#" class="nav-link active" data-page="calendar">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    <span class="nav-text">Calendar</span>
+                </a>
+            </li>
+            
+            <li class="nav-item" data-tooltip="Clients">
+                <a href="#" class="nav-link" data-page="clients">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <span class="nav-text">Clients</span>
+                </a>
+            </li>
+            
+            <li class="nav-item" data-tooltip="Inventory">
+                <a href="#" class="nav-link" data-page="inventory">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <polyline points="3.29,7 12,12 20.71,7"></polyline>
+                        <line x1="12" y1="22" x2="12" y2="12"></line>
+                    </svg>
+                    <span class="nav-text">Inventory</span>
+                </a>
+            </li>
+            
+            <li class="nav-item" data-tooltip="Staff">
+                <a href="#" class="nav-link" data-page="staff">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14,2 14,8 20,8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10,9 9,9 8,9"></polyline>
+                    </svg>
+                    <span class="nav-text">Staff</span>
+                </a>
+            </li>
+            
+            <li class="nav-item" data-tooltip="Marketing">
+                <a href="#" class="nav-link" data-page="marketing">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span class="nav-text">Marketing</span>
+                </a>
+            </li>
+            
+            <li class="nav-item" data-tooltip="Invoice">
+                <a href="#" class="nav-link" data-page="invoice">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="16" rx="2" ry="2"></rect>
+                        <line x1="7" y1="10" x2="17" y2="10"></line>
+                        <line x1="7" y1="14" x2="17" y2="14"></line>
+                        <line x1="7" y1="18" x2="13" y2="18"></line>
+                    </svg>
+                    <span class="nav-text">Invoice</span>
+                </a>
+            </li>
+            
+            <li class="nav-item" data-tooltip="Services">
+                <a href="#" class="nav-link" data-page="service">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                    <span class="nav-text">Services</span>
+                </a>
+            </li>
+            
+            
+            
+            <li class="nav-item" data-tooltip="User">
+                <a href="#" class="nav-link" data-page="user">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span class="nav-text">User</span>
+                </a>
+            </li>
+            
+            <li class="nav-item" data-tooltip="Reports">
+                <a href="#" class="nav-link" data-page="reports">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="20" x2="12" y2="10"></line>
+                        <line x1="18" y1="20" x2="18" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="16"></line>
+                    </svg>
+                    <span class="nav-text">Reports</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <section id="calendar" class="page-section active">
+            <iframe src="calender1.html"></iframe>
+        </section>
+        <section id="clients" class="page-section">
+            <iframe src="client.html"></iframe>
+        </section>
+        <section id="inventory" class="page-section">
+            <iframe src="Glaminventory.html"></iframe>
+        </section>
+        <section id="staff" class="page-section">
+            <iframe src="staff.html"></iframe>
+        </section>
+        <section id="marketing" class="page-section">
+            <iframe src="marketing.html"></iframe>
+        </section>
+        <section id="invoice" class="page-section">
+            <iframe src="invoice.html"></iframe>
+        </section>
+
+        <!-- FIXED: Changed id from "service" to match and iframe src -->
+        <section id="service" class="page-section">
+            <iframe src="service.html"></iframe>
+        </section>
+
+
+        <section id="user" class="page-section">
+            <iframe src="user.html"></iframe>
+        </section>
+
+        
+        <section id="reports" class="page-section">
+            <iframe src="reports.html"></iframe>
+        </section>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        //header
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            console.log('Menu toggle clicked');
+            // Add your menu toggle functionality here
+        });
+
+        class SidebarManager {
+            constructor() {
+                this.sidebar = document.getElementById('sidebar');
+                this.headerMenuButton = document.getElementById('menuToggle');
+                this.mainContent = document.getElementById('mainContent');
+                this.navLinks = document.querySelectorAll('.nav-link');
+                this.pages = document.querySelectorAll('.page-section');
+                
+                this.init();
+            }
+
+            init() {
+                // Header menu button click - toggles sidebar collapse
+                this.headerMenuButton.addEventListener('click', () => {
+                    this.toggleSidebar();
+                });
+
+                // Navigation links click
+                this.navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        
+                        const page = link.getAttribute('data-page');
+                        this.setActiveNav(link);
+                        this.showPage(page);
+                    });
+                });
+            }
+
+            toggleSidebar() {
+                this.sidebar.classList.toggle('collapsed');
+                
+                // Adjust main content margin
+                if (this.sidebar.classList.contains('collapsed')) {
+                    this.mainContent.style.marginLeft = '60px';
+                } else {
+                    this.mainContent.style.marginLeft = '220px';
+                }
+            }
+
+            setActiveNav(activeLink) {
+                // Remove active class from all links
+                this.navLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // Add active class to clicked link
+                activeLink.classList.add('active');
+            }
+
+            showPage(pageId) {
+                // Hide all pages
+                this.pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Show selected page
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                }
+            }
+
+            // Public methods for external use
+            collapse() {
+                this.sidebar.classList.add('collapsed');
+                this.mainContent.style.marginLeft = '60px';
+            }
+
+            expand() {
+                this.sidebar.classList.remove('collapsed');
+                this.mainContent.style.marginLeft = '220px';
+            }
+
+            setActivePage(page) {
+                const link = document.querySelector(`[data-page="${page}"]`);
+                if (link) {
+                    this.setActiveNav(link);
+                    this.showPage(page);
+                }
+            }
+        }
+
+        // Initialize sidebar when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarManager = new SidebarManager();
+            
+            // Global functions for external use
+            window.toggleSidebar = () => sidebarManager.toggleSidebar();
+            window.setSidebarActive = (page) => sidebarManager.setActivePage(page);
+            window.collapseSidebar = () => sidebarManager.collapse();
+            window.expandSidebar = () => sidebarManager.expand();
+        });
+
+        // Handle responsive behavior
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            
+            if (window.innerWidth <= 768) {
+                mainContent.style.marginLeft = '0';
+            } else {
+                if (sidebar.classList.contains('collapsed')) {
+                    mainContent.style.marginLeft = '60px';
+                } else {
+                    mainContent.style.marginLeft = '220px';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

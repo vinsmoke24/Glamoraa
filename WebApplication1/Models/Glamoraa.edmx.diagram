@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7e9976fa8b21426ead1d534e79aff596" Name="Diagram1" ZoomLevel="62">
+        <EntityTypeShape EntityType="GlamoraaModel.ActivityLog" Width="1.5" PointX="5.25" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.Appointment" Width="1.5" PointX="14.25" PointY="40.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.AppointmentServiceProduct" Width="1.5" PointX="21.75" PointY="41.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.AppointmentService" Width="1.5" PointX="19.5" PointY="37.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.Branch" Width="1.5" PointX="9.75" PointY="37" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.Coupon" Width="1.5" PointX="9.75" PointY="41.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.Customer" Width="1.5" PointX="12" PointY="35.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.DailyCashLog" Width="1.5" PointX="12" PointY="31.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.Feedback" Width="1.5" PointX="17.5" PointY="33.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.Invoice" Width="1.5" PointX="15" PointY="31.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.Membership" Width="1.5" PointX="9.75" PointY="33.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.Payment" Width="1.5" PointX="16.5" PointY="40.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.Product" Width="1.5" PointX="9.75" PointY="44.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.ProductStock" Width="1.5" PointX="12" PointY="44.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.Role" Width="1.5" PointX="0.75" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.SalonOwner" Width="1.5" PointX="5.25" PointY="34.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.Salon" Width="1.5" PointX="7.5" PointY="35.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.Service" Width="1.5" PointX="9.75" PointY="48.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.Staff" Width="1.5" PointX="12" PointY="25.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.StaffAvailabilityOverride" Width="1.5" PointX="14.25" PointY="25.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.StaffService" Width="1.5" PointX="17.25" PointY="37.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.StaffWorkingHour" Width="1.5" PointX="14.25" PointY="36.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.SubService" Width="1.5" PointX="12" PointY="48.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GlamoraaModel.User" Width="1.5" PointX="3" PointY="25" IsExpanded="true" />
+        <AssociationConnector Association="GlamoraaModel.FK_ActivityLogs_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Appointments_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Appointments_Customers" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Appointments_Salons" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Appointments_Services" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Appointments_Staff" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Appointments_SubServices" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_AppointmentServices_Appointments" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Feedback_Appointments" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Invoices_Appointments" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Payments_Appointments" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_AppointmentServiceProducts_AppointmentServices" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_AppointmentServiceProducts_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_AppointmentServices_Services" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_AppointmentServices_Staff" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Branches_Salons" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Customers_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_DailyCashLogs_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Invoices_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Payments_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Staff_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Users_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Coupons_Salons" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Customers_Memberships" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Customers_Salons" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Feedback_Customers" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Invoices_Customers" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_DailyCashLogs_Salons" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_DailyCashLogs_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Feedback_Staff" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Invoices_Salons" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Invoices_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Payments_Salons" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Products_Salons" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_ProductStock_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Users_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_SalonOwners_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Salons_SalonOwners" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Services_Salons" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Staff_Salons" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Users_Salons" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_StaffServices_Services" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_SubServices_Services" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_Staff_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_StaffAvailabilityOverrides_Staff" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_StaffServices_Staff" ManuallyRouted="false" />
+        <AssociationConnector Association="GlamoraaModel.FK_StaffWorkingHours_Staff" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="GlamoraaModel.SubServiceProduct" Width="1.5" PointX="14.25" PointY="47" />
+        <AssociationConnector Association="GlamoraaModel.FK__SubServic__Produ__2F9A1060" />
+        <AssociationConnector Association="GlamoraaModel.FK__SubServic__SubSe__2EA5EC27" />
+        <EntityTypeShape EntityType="GlamoraaModel.StaffAttendance" Width="1.5" PointX="14.25" PointY="21.625" />
+        <AssociationConnector Association="GlamoraaModel.FK__StaffAtte__Staff__32767D0B" />
+        <EntityTypeShape EntityType="GlamoraaModel.StaffSubService" Width="1.5" PointX="19.25" PointY="42.375" />
+        <AssociationConnector Association="GlamoraaModel.FK_StaffSubServices_Staff" />
+        <AssociationConnector Association="GlamoraaModel.FK_StaffSubServices_SubService" />
+        <EntityTypeShape EntityType="GlamoraaModel.CouponUsage" Width="1.5" PointX="20.25" PointY="33.5" />
+        <EntityTypeShape EntityType="GlamoraaModel.InvoiceProduct" Width="1.5" PointX="22.25" PointY="44.625" />
+        <EntityTypeShape EntityType="GlamoraaModel.InvoiceService" Width="1.5" PointX="22.75" PointY="35" />
+        <EntityTypeShape EntityType="GlamoraaModel.ServiceProduct" Width="1.5" PointX="15" PointY="49.875" />
+        <AssociationConnector Association="GlamoraaModel.FK_InvoiceServices_AppointmentServices" />
+        <AssociationConnector Association="GlamoraaModel.FK_CouponUsages_Coupons" />
+        <AssociationConnector Association="GlamoraaModel.FK_CouponUsages_Customers" />
+        <AssociationConnector Association="GlamoraaModel.FK_CouponUsages_Invoices" />
+        <AssociationConnector Association="GlamoraaModel.FK_InvoiceProducts_Invoices" />
+        <AssociationConnector Association="GlamoraaModel.FK_InvoiceProducts_Products" />
+        <AssociationConnector Association="GlamoraaModel.FK_InvoiceServices_Invoices" />
+        <AssociationConnector Association="GlamoraaModel.FK_Payments_Invoices" />
+        <AssociationConnector Association="GlamoraaModel.FK_ServiceProducts_Products" />
+        <AssociationConnector Association="GlamoraaModel.FK_ServiceProducts_Services" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

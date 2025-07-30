@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Management System</title>
+   
+    <link href="../../../Asset/CSS/admin/calender1.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page" id="calendar-page">
+        <!-- Header Section -->
+        <div class="appointment-header">
+            <h3>Appointment Management</h3>
+        </div>
+
+        <div class="appointment-section">
+            <!-- Stats and Totals Row -->
+            <div class="stats-totals-row">
+                <!-- Appointment Stats Section -->
+                <div class="appointment-stas-section">
+                    <h3 class="stats-title">Appointment Overview</h3>
+                    <div class="appointment-stats-actions">
+                        <button class="stat-card stat-confirmed">Confirmed: 7</button>
+                        <button class="stat-card stat-upcoming">Upcoming: 4</button>
+                        <button class="stat-card stat-ongoing">Ongoing: 15</button>
+                        <button class="btn btn-primary" onclick="openAddAppointmentModal()">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Add new
+                        </button>
+                        <button class="btn btn-secondary" onclick="openSearchModal()">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                            Search
+                        </button>
+                        <button class="btn btn-secondary" onclick="openFilterModal()">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46 22,3"></polygon>
+                            </svg>
+                            Filter
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Business Overview Section -->
+                <div class="totals-section">
+                    <h3 class="stats-title">Business Overview</h3>
+                    <div class="totals-grid">
+                        <div class="total-item clickable" onclick="openSalesModal()">
+                            <span class="total-icon sales">📈</span>
+                            <div class="total-value sales">24</div>
+                            <div class="total-label">Sales</div>
+                        </div>
+                        <div class="total-item">
+                            <span class="total-icon product">🛍</span>
+                            <div class="total-value product">30</div>
+                            <div class="total-label">Due</div>
+                        </div>
+                        <div class="total-item">
+                            <span class="total-icon cash">💰</span>
+                            <div class="total-value cash">1600</div>
+                            <div class="total-label">Cash</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Modal -->
+        <div id="searchModal" class="search-modal">
+            <div class="search-modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Search Appointments</h3>
+                    <button class="close" onclick="closeSearchModal()">&times;</button>
+                </div>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search by stylist name...">
+                <div class="modal-actions">
+                    <button class="btn btn-clear" onclick="clearSearch()">Clear</button>
+                    <button class="btn btn-apply" onclick="applySearch()">Search</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Modal -->
+        <div id="filterModal" class="filter-modal">
+            <div class="filter-modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Filter Appointments</h3>
+                    <button class="close" onclick="closeFilterModal()">&times;</button>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Stylist Name</label>
+                    <select id="stylistFilter" class="filter-select">
+                        <option value="">All Stylists</option>
+                        <option value="Sarah Johnson">Sarah Johnson</option>
+                        <option value="Mike Davis">Mike Davis</option>
+                        <option value="Emma Wilson">Emma Wilson</option>
+                        <option value="Alex Rodriguez">Alex Rodriguez</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Appointment Type</label>
+                    <select id="typeFilter" class="filter-select">
+                        <option value="">All Types</option>
+                        <option value="walk-in">Walk-in</option>
+                        <option value="online">Online</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Service</label>
+                    <select id="serviceFilter" class="filter-select">
+                        <option value="">All Services</option>
+                        <option value="haircut">Haircut</option>
+                        <option value="hair-color">Hair Color</option>
+                        <option value="manicure">Manicure</option>
+                        <option value="pedicure">Pedicure</option>
+                        <option value="facial">Facial</option>
+                        <option value="massage">Massage</option>
+                    </select>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn btn-clear" onclick="clearFilters()">Clear All</button>
+                    <button class="btn btn-apply" onclick="applyFilters()">Apply Filters</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="row">
+            <!-- Left Section: Calendar -->
+            <div class="col-md-6">
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <button class="calendar-nav" onclick="previousMonth()">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15,18 9,12 15,6"></polyline>
+                            </svg>
+                        </button>
+                        <h3 class="calendar-title" id="calendarTitle">April 2025</h3>
+                        <button class="calendar-nav" onclick="nextMonth()">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9,18 15,12 9,6"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="calendar-grid">
+                        <div class="calendar-day-header">Sun</div>
+                        <div class="calendar-day-header">Mon</div>
+                        <div class="calendar-day-header">Tue</div>
+                        <div class="calendar-day-header">Wed</div>
+                        <div class="calendar-day-header">Thu</div>
+                        <div class="calendar-day-header">Fri</div>
+                        <div class="calendar-day-header">Sat</div>
+
+                        <!-- Calendar Days -->
+                        <div class="calendar-day empty"></div>
+                        <div class="calendar-day empty"></div>
+                        <div class="calendar-day" data-date="1">1</div>
+                        <div class="calendar-day" data-date="2">2</div>
+                        <div class="calendar-day" data-date="3">3</div>
+                        <div class="calendar-day" data-date="4">4</div>
+                        <div class="calendar-day" data-date="5">5</div>
+
+                        <div class="calendar-day" data-date="6">6</div>
+                        <div class="calendar-day has-appointments" data-date="7">7</div>
+                        <div class="calendar-day" data-date="8">8</div>
+                        <div class="calendar-day" data-date="9">9</div>
+                        <div class="calendar-day" data-date="10">10</div>
+                        <div class="calendar-day" data-date="11">11</div>
+                        <div class="calendar-day" data-date="12">12</div>
+
+                        <div class="calendar-day" data-date="13">13</div>
+                        <div class="calendar-day has-appointments selected" data-date="14">14</div>
+                        <div class="calendar-day" data-date="15">15</div>
+                        <div class="calendar-day" data-date="16">16</div>
+                        <div class="calendar-day" data-date="17">17</div>
+                        <div class="calendar-day" data-date="18">18</div>
+                        <div class="calendar-day" data-date="19">19</div>
+
+                        <div class="calendar-day" data-date="20">20</div>
+                        <div class="calendar-day has-appointments" data-date="21">21</div>
+                        <div class="calendar-day" data-date="22">22</div>
+                        <div class="calendar-day" data-date="23">23</div>
+                        <div class="calendar-day" data-date="24">24</div>
+                        <div class="calendar-day" data-date="25">25</div>
+                        <div class="calendar-day" data-date="26">26</div>
+
+                        <div class="calendar-day" data-date="27">27</div>
+                        <div class="calendar-day" data-date="28">28</div>
+                        <div class="calendar-day" data-date="29">29</div>
+                        <div class="calendar-day" data-date="30">30</div>
+                        <div class="calendar-day empty"></div>
+                        <div class="calendar-day empty"></div>
+                        <div class="calendar-day empty"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Section: Date Details -->
+            <div class="col-md-6">
+                <div class="date-details">
+                    <div class="date-details-header">
+                        <h3 class="date-title" id="selectedDateTitle">Appointments for 14 April 2025</h3>
+                    </div>
+
+                    <div class="appointment-list" id="appointmentList">
+                        <!-- Appointments will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Appointment Modal -->
+    <div id="addAppointmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add New Appointment</h2>
+                <span class="close" onclick="closeAddAppointmentModal()">&times;</span>
+            </div>
+            <form id="addAppointmentForm">
+                <div class="form-group">
+                    <label class="form-label">Customer Name</label>
+                    <input type="text" class="form-control" id="customerName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="customerPhone" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="serviceType">Service</label>
+                    <select class="form-control" id="serviceType" required>
+                        <!-- Options will be dynamically populated here -->
+                    </select>
+                </div>
+                <!-- Stylist Dropdown -->
+                <div class="form-group">
+                    <label class="form-label" for="stylistName">Stylist</label>
+                    <select class="form-control" id="stylistName" required>
+                        <option value="">Select Stylist</option>
+                        <!-- Options will be dynamically populated here -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-control" id="appointmentDate" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Time</label>
+                    <input type="time" class="form-control" id="appointmentTime" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Appointment Type</label>
+                    <select class="form-control" id="appointmentType" required>
+                        <option value="">Select Type</option>
+                        <option value="online">Online</option>
+                        <option value="walk-in">Walk-in</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-cancel" onclick="closeAddAppointmentModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Appointment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sales Modal -->
+    <div id="salesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Sales Overview</h2>
+                <span class="close" onclick="closeSalesModal()">&times;</span>
+            </div>
+            <div class="sales-section">
+                <div class="sales-card">
+                    <h3>💰 Cash Sales</h3>
+                    <div class="sales-amount" id="cashAmount">₹800</div>
+                    <div class="sales-customers" id="cashCustomers">12 customers</div>
+                </div>
+                <div class="sales-card">
+                    <h3>💳 Credit/Online Sales</h3>
+                    <div class="sales-amount" id="cardAmount">₹800</div>
+                    <div class="sales-customers" id="cardCustomers">12 customers</div>
+                </div>
+            </div>
+            <div class="total-sales">
+                <h3>Total Sales</h3>
+                <div class="total-sales-amount" id="totalSalesAmount">₹1,600</div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script src="../../../Asset/JS/calender1.js"></script>
+</body>
+</html>

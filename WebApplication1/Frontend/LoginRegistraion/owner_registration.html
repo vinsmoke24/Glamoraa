@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Salon ERP - Owner Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+          rel="stylesheet" />
+    
+    <link href="../../Asset/CSS/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="signup-container">
+        <h2>Owner Registration</h2>
+
+        <!-- Give this form the proper ID so JS can find it: -->
+        <form id="ownerRegistrationForm">
+            <!-- Personal Details -->
+            <div class="form-section-title">Personal Details</div>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <!-- Added name="fullName" -->
+                        <input type="text" name="fullName" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <!-- Added name="emailAddress" -->
+                        <input type="email" name="emailAddress" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <!-- Added name="phoneNumber" -->
+                        <input type="tel" name="phoneNumber" required />
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <!-- Added name="gender" -->
+                        <select name="gender" required>
+                            <option value="">Select</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <!-- Added name="dob" -->
+                        <input type="date" name="dob" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Profile Picture</label>
+                        <!-- Added name="profilePic" -->
+                        <input type="file" name="profilePic" accept="image/*" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Salon Information -->
+            <div class="form-section-title">Salon Information</div>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label>Salon Name</label>
+                        <!-- Added name="salonName" -->
+                        <input type="text" name="salonName" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Salon Type</label>
+                        <!-- Added name="salonType" -->
+                        <select name="salonType" required>
+                            <option value="">Select</option>
+                            <option>Unisex</option>
+                            <option>Ladies</option>
+                            <option>Gents</option>
+                            <option>Kids</option>
+                            <option>Spa</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label>GST Number</label>
+                        <!-- Added name="gstNumber" -->
+                        <input type="text" name="gstNumber" required />
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Services Offered
+                            <small style="font-size: 12px; color: #555;">(Select at least one)</small>
+                        </label>
+                        <!-- checkboxes already have name="services[]" which is correct -->
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox"
+                                       name="services[]"
+                                       value="Haircut"
+                                       required />
+                                Haircut
+                            </label><br />
+                            <label>
+                                <input type="checkbox" name="services[]" value="Facial" />
+                                Facial
+                            </label><br />
+                            <label>
+                                <input type="checkbox" name="services[]" value="Massage" />
+                                Massage
+                            </label><br />
+                            <label>
+                                <input type="checkbox"
+                                       name="services[]"
+                                       value="Hair Coloring" />
+                                Hair Coloring
+                            </label><br />
+                            <label>
+                                <input type="checkbox" name="services[]" value="Waxing" />
+                                Waxing
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Address Section -->
+            <div class="form-section-title">Salon Address</div>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label>Street Address</label>
+                        <!-- Added name="streetAddress" -->
+                        <input type="text" name="streetAddress" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Country</label>
+                        <!-- Added name="country" -->
+                        <input type="text" name="country" required />
+                    </div>
+                    <div class="form-group">
+                        <label>State</label>
+                        <!-- Added name="state" -->
+                        <input type="text" name="state" required />
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label>City</label>
+                        <!-- Added name="city" -->
+                        <input type="text" name="city" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Pin Code</label>
+                        <!-- Added name="pinCode" -->
+                        <input type="text" name="pinCode" required />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operating Details -->
+            <div class="form-section-title">Operating Details</div>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label>Opening Time</label>
+                        <!-- Added name="openingTime" -->
+                        <input type="time" name="openingTime" required />
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label>Closing Time</label>
+                        <!-- Added name="closingTime" -->
+                        <input type="time" name="closingTime" required />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Credentials -->
+            <div class="form-section-title">Login Credentials</div>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <!-- Added name="password" as well as id="password" -->
+                        <input type="password" id="password" name="password" required />
+                    </div>
+                </div>
+                <div class="form-col">
+                    <br />
+                    <input type="checkbox" onclick="togglePassword()" id="showPwd" />
+                    <label for="showPwd">Show Password</label>
+                </div>
+            </div>
+
+            <!-- Terms & Conditions -->
+            <div class="form-group checkbox-group" style="margin-top: 10px;">
+                <!-- Added name="terms" -->
+                <input type="checkbox" id="terms" name="terms" required />
+                <label for="terms">
+                    I accept the
+                    <a href="#" onclick="showTerms()" style="color: #0077B6;">Terms & Conditions</a>
+                </label>
+            </div>
+
+            <button type="submit" class="btn-login">Register</button>
+        </form>
+
+        <div class="footer-text">
+            Already registered?
+            <a href="login.html"
+               style="color: #0077B6; text-decoration: none; font-weight: 500;">Login</a>
+        </div>
+
+        <div class="footer-text">© 2025 Glamoraa Salon ERP | All rights reserved</div>
+    </div>
+
+    <!-- Terms & Conditions Modal -->
+    <div id="termsModal"
+         style="
+      display: none;
+      position: fixed;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      width: 80%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      z-index: 1000;
+    ">
+        <h3 style="margin-top: 0;">Terms & Conditions</h3>
+        <p>
+            <strong>1. Accurate Information:</strong> You agree to provide correct
+            details and update them as needed.
+        </p>
+        <p>
+            <strong>2. Account Security:</strong> You are responsible for keeping your
+            credentials secure.
+        </p>
+        <p>
+            <strong>3. Fair Use:</strong> Use the system only for legal salon
+            operations.
+        </p>
+        <p>
+            <strong>4. Data Use:</strong> We store data securely and use it only to
+            improve our services.
+        </p>
+        <p>
+            <strong>5. Plans:</strong> Subscription terms may change. Continued use
+            implies acceptance.
+        </p>
+        <p>
+            <strong>6. Support:</strong> We provide updates and customer support
+            where applicable.
+        </p>
+        <p>
+            <strong>7. Updates:</strong> Terms may change. Updates will be
+            communicated.
+        </p>
+        <p>By registering, you agree to all of the above terms and conditions.</p>
+        <button onclick="closeTerms()"
+                style="
+        margin-top: 10px;
+        padding: 6px 14px;
+        background: #0077B6;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      ">
+            Close
+        </button>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const pwd = document.getElementById("password");
+            pwd.type = pwd.type === "password" ? "text" : "password";
+        }
+        function showTerms() {
+            document.getElementById("termsModal").style.display = "block";
+        }
+        function closeTerms() {
+            document.getElementById("termsModal").style.display = "none";
+        }
+
+        // Now that every <input> and <select> has a matching `name="…"`,
+        // form.fullName, form.emailAddress, etc., will no longer be undefined.
+        document
+            .getElementById("ownerRegistrationForm")
+            .addEventListener("submit", async function (event) {
+                event.preventDefault();
+                const form = event.target;
+
+                // Collect values (all `form.<field>.value` now exist):
+                const data = {
+                    fullName: form.fullName.value,
+                    emailAddress: form.emailAddress.value,
+                    phoneNumber: form.phoneNumber.value,
+                    gender: form.gender.value,
+                    dateOfBirth: form.dob.value,
+                    salonName: form.salonName.value,
+                    salonType: form.salonType.value,
+                    gstNumber: form.gstNumber.value,
+                    servicesOffered: Array.from(
+                        form.querySelectorAll("input[name='services[]']:checked")
+                    ).map(el => el.value),
+                    streetAddress: form.streetAddress.value,
+                    country: form.country.value,
+                    state: form.state.value,
+                    city: form.city.value,
+                    pinCode: form.pinCode.value,
+                    openingTime: form.openingTime.value,
+                    closingTime: form.closingTime.value,
+                    password: form.password.value,
+                    termsAccepted: form.terms.checked
+                };
+
+
+                // Example fetch; replace URL with your actual API endpoint
+                try {
+                    const response = await fetch(
+                        "https://localhost:44353/api/login/register/owner",
+                        {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(data),
+                        }
+                    );
+                    if (response.ok) {
+                        alert("Registration successful!");
+                        form.reset();
+                        window.location.href = "login.html";
+                    } else {
+                        const err = await response.text();
+                        alert("Registration failed: " + err);
+                    }
+                } catch (err) {
+                    alert("Error submitting form: " + err.message);
+                }
+            });
+    </script>
+</body>
+</html>

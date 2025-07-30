@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salon Inventory Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    
+    <link href="../../../Asset/CSS/admin/Glaminventory.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-cut"></i> Salon Inventory Management</h1>
+            <p>Manage your salon products, track stock levels, and monitor usage history</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('products')">
+                <i class="fas fa-boxes"></i> Products
+            </button>
+            <button class="tab" onclick="showTab('stock')">
+                <i class="fas fa-warehouse"></i> Stock
+            </button>
+            <button class="tab" onclick="showTab('history')">
+                <i class="fas fa-history"></i> Stock History
+            </button>
+        </div>
+
+        <div class="content">
+            <!-- Products Tab -->
+            <div id="products-tab" class="tab-content">
+                <div class="filters">
+                    <div class="search-box">
+                        <input type="text" id="productSearch" placeholder="Search by product name...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="filter-group">
+                        <label>Category</label>
+                        <select id="categoryFilter">
+                            <!-- <option value="">All Categories</option>
+                            <option value="Hair Care">Hair Care</option>
+                            <option value="Skin Care">Skin Care</option>
+                            <option value="Styling">Styling</option>
+                            <option value="Tools">Tools</option> -->
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Brand</label>
+                        <select id="brandFilter">
+                            <!-- <option value="">All Brands</option>
+                            <option value="LOREAL">L'OREAL</option>
+                            <option value="MATRIX">MATRIX</option>
+                            <option value="WELLA">WELLA</option> -->
+                        </select>
+                    </div>
+                    <button class="add-btn" onclick="openAddProductModal()">
+                        <i class="fas fa-plus"></i> Add Product
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Code</th>
+                                <th>Category</th>
+                                <th>Brand</th>
+                                <th>Price</th>
+                                <th>Stock Qty</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Stock Tab -->
+            <div id="stock-tab" class="tab-content hidden">
+                <div class="filters">
+                    <div class="search-box">
+                        <input type="text" id="stockSearch" placeholder="Search products...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="filter-group">
+                        <label>Stock Status</label>
+                        <select id="stockStatusFilter">
+                            <option value="">All Status</option>
+                            <option value="in-stock">In Stock</option>
+                            <option value="low-stock">Low Stock</option>
+                            <option value="out-stock">Out of Stock</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="stockDetails">
+                    <div class="stock-details">
+                        <div class="detail-card">
+                            <div class="detail-label">Total Products</div>
+                            <div class="detail-value" id="totalProducts">0</div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-label">In Stock</div>
+                            <div class="detail-value" id="inStockCount">0</div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-label">Low Stock</div>
+                            <div class="detail-value" id="lowStockCount">0</div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-label">Out of Stock</div>
+                            <div class="detail-value" id="outStockCount">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Current Stock</th>
+                                <th>Min Stock Level</th>
+                                <th>Usage per Service</th>
+                                <th>Services Possible</th>
+                                <th>Last Restocked</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stockTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- History Tab -->
+            <div id="history-tab" class="tab-content hidden">
+                <div class="filters">
+                    <div class="search-box">
+                        <input type="text" id="historySearch" placeholder="Search history...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="filter-group">
+                        <label>Type</label>
+                        <select id="historyTypeFilter">
+                            <option value="">All Types</option>
+                            <option value="IN">Stock In</option>
+                            <option value="OUT">Stock Out</option>
+                            <option value="ADJUST">Adjustment</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Date From</label>
+                        <input type="date" id="dateFrom">
+                    </div>
+                    <div class="filter-group">
+                        <label>Date To</label>
+                        <input type="date" id="dateTo">
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Date</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Created By</th>
+                                <th>Stock Type</th>
+                                <th>Lot No</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add Product</h3>
+                <button class="close" onclick="closeModal('productModal')">&times;</button>
+            </div>
+            <form id="productForm">
+                <div class="form-group">
+                    <label>Product Name *</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label>Product Code *</label>
+                    <input type="text" id="productCode" required>
+                </div>
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select id="productCategory" required>
+                        <!-- <option value="">Select Category</option>
+                        <option value="Hair Care">Hair Care</option>
+                        <option value="Skin Care">Skin Care</option>
+                        <option value="Styling">Styling</option>
+                        <option value="Tools">Tools</option> -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Brand</label>
+                    <input type="text" id="productBrand">
+                </div>
+                <div class="form-group">
+                    <label>Price *</label>
+                    <input type="number" id="productPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Stock Quantity *</label>
+                    <input type="number" id="productStock" required>
+                </div>
+                <div class="form-group">
+                    <label>Minimum Stock Level</label>
+                    <input type="number" id="minStockLevel" value="5">
+                </div>
+                <div class="form-group">
+                    <label>Usage per Service (ml/gms)</label>
+                    <input type="number" id="usagePerService" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label>Size/Volume</label>
+                    <input type="text" id="productSize" placeholder="e.g., 100ml, 50gms">
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn-secondary" onclick="closeModal('productModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Stock Adjustment Modal -->
+    <div id="adjustModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Adjust Stock</h3>
+                <button class="close" onclick="closeModal('adjustModal')">&times;</button>
+            </div>
+            <form id="adjustForm">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="adjustProductName" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Current Stock</label>
+                    <input type="number" id="currentStock" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Adjustment Type</label>
+                    <select id="adjustmentType" required>
+                        <option value="">Select Type</option>
+                        <option value="IN">Stock In</option>
+                        <option value="OUT">Stock Out</option>
+                        <option value="ADJUST">Adjustment</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number" id="adjustQuantity" required>
+                </div>
+                <div class="form-group">
+                    <label>Cost per Unit</label>
+                    <input type="number" id="adjustCost" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>Lot Number</label>
+                    <input type="text" id="lotNumber">
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea id="adjustNotes" rows="3"></textarea>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn-secondary" onclick="closeModal('adjustModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Adjustment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Data Storage
+
+
+        let currentEditId = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            renderProducts();
+            renderStock();
+            renderHistory();
+            updateStockSummary();
+
+            // Add event listeners
+            document.getElementById('productSearch').addEventListener('input', filterProducts);
+            document.getElementById('categoryFilter').addEventListener('change', filterProducts);
+            document.getElementById('brandFilter').addEventListener('change', filterProducts);
+
+            document.getElementById('stockSearch').addEventListener('input', filterStock);
+            document.getElementById('stockStatusFilter').addEventListener('change', filterStock);
+
+            document.getElementById('historySearch').addEventListener('input', filterHistory);
+            document.getElementById('historyTypeFilter').addEventListener('change', filterHistory);
+            document.getElementById('dateFrom').addEventListener('change', filterHistory);
+            document.getElementById('dateTo').addEventListener('change', filterHistory);
+
+            // Form submissions
+            document.getElementById('productForm').addEventListener('submit', saveProduct);
+            document.getElementById('adjustForm').addEventListener('submit', saveAdjustment);
+        });
+
+        // Tab Functions
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+
+            event.target.classList.add('active');
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+
+            if (tabName === 'stock') {
+                updateStockSummary();
+            }
+        }
+
+        // Product Functions
+        function renderProducts() {
+            const tbody = document.getElementById('productsTable');
+            const searchTerm = document.getElementById('productSearch').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const brandFilter = document.getElementById('brandFilter').value;
+
+            let filteredProducts = products.filter(product => {
+                const matchesSearch = product.name.toLowerCase().includes(searchTerm) ||
+                    product.code.toLowerCase().includes(searchTerm);
+                const matchesCategory = !categoryFilter || product.category === categoryFilter;
+                const matchesBrand = !brandFilter || product.brand === brandFilter;
+
+                return matchesSearch && matchesCategory && matchesBrand;
+            });
+
+            tbody.innerHTML = filteredProducts.map(product => `
+                    <tr>
+                        <td>${product.name}</td>
+                        <td>${product.code}</td>
+                        <td>${product.category}</td>
+                        <td>${product.brand}</td>
+                        <td>₹${product.price}</td>
+                        <td>${product.stock}</td>
+                        <td>${getStockStatus(product.stock, product.minStock)}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-edit" onclick="editProduct(${product.id})" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-adjust" onclick="adjustStock(${product.id})" title="Adjust Stock">
+                                    <i class="fas fa-balance-scale"></i>
+                                </button>
+                                <button class="btn btn-delete" onclick="deleteProduct(${product.id})" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+        }
+
+        function renderStock() {
+            const tbody = document.getElementById('stockTable');
+            const searchTerm = document.getElementById('stockSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('stockStatusFilter').value;
+
+            let filteredProducts = products.filter(product => {
+                const matchesSearch = product.name.toLowerCase().includes(searchTerm);
+                const status = getStockStatusType(product.stock, product.minStock);
+                const matchesStatus = !statusFilter || status === statusFilter;
+
+                return matchesSearch && matchesStatus;
+            });
+
+            tbody.innerHTML = filteredProducts.map(product => {
+                const servicesPossible = product.usagePerService > 0 ?
+                    Math.floor(product.stock * (product.size ? parseInt(product.size) : 100) / product.usagePerService) :
+                    'N/A';
+
+                return `
+                        <tr>
+                            <td>${product.name}</td>
+                            <td>${product.stock}</td>
+                            <td>${product.minStock}</td>
+                            <td>${product.usagePerService || 'N/A'} ${product.usagePerService ? 'ml/gms' : ''}</td>
+                            <td>${servicesPossible}</td>
+                            <td>${product.lastRestocked}</td>
+                            <td>${getStockStatus(product.stock, product.minStock)}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-adjust" onclick="adjustStock(${product.id})" title="Adjust Stock">
+                                        <i class="fas fa-balance-scale"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+            }).join('');
+        }
+
+        function renderHistory() {
+            const tbody = document.getElementById('historyTable');
+            const searchTerm = document.getElementById('historySearch').value.toLowerCase();
+            const typeFilter = document.getElementById('historyTypeFilter').value;
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+
+            let filteredHistory = stockHistory.filter(record => {
+                const matchesSearch = record.productName.toLowerCase().includes(searchTerm) ||
+                    record.createdBy.toLowerCase().includes(searchTerm);
+                const matchesType = !typeFilter || record.type === typeFilter;
+                const matchesDateFrom = !dateFrom || record.date >= dateFrom;
+                const matchesDateTo = !dateTo || record.date <= dateTo;
+
+                return matchesSearch && matchesType && matchesDateFrom && matchesDateTo;
+            });
+
+            tbody.innerHTML = filteredHistory.map(record => `
+                    <tr>
+                        <td><span class="status-badge status-${record.type.toLowerCase()}">${record.type}</span></td>
+                        <td>${record.date}</td>
+                        <td>${record.productName}</td>
+                        <td>${record.quantity}</td>
+                        <td>${record.price ? '₹' + record.price : '-'}</td>
+                        <td>${record.createdBy}</td>
+                        <td>${record.stockType}</td>
+                        <td>${record.lotNo}</td>
+                        <td>${record.notes || '-'}</td>
+                    </tr>
+                `).join('');
+        }
+
+        function getStockStatus(stock, minStock) {
+            if (stock === 0) {
+                return '<span class="status-badge status-out-stock">Out of Stock</span>';
+            } else if (stock <= minStock) {
+                return '<span class="status-badge status-low-stock">Low Stock</span>';
+            } else {
+                return '<span class="status-badge status-in-stock">In Stock</span>';
+            }
+        }
+
+        function getStockStatusType(stock, minStock) {
+            if (stock === 0) {
+                return 'out-stock';
+            } else if (stock <= minStock) {
+                return 'low-stock';
+            } else {
+                return 'in-stock';
+            }
+        }
+
+        function updateStockSummary() {
+            const total = products.length;
+            const inStock = products.filter(p => p.stock > p.minStock).length;
+            const lowStock = products.filter(p => p.stock > 0 && p.stock <= p.minStock).length;
+            const outStock = products.filter(p => p.stock === 0).length;
+
+            document.getElementById('totalProducts').textContent = total;
+            document.getElementById('inStockCount').textContent = inStock;
+            document.getElementById('lowStockCount').textContent = lowStock;
+            document.getElementById('outStockCount').textContent = outStock;
+        }
+
+        // Filter Functions
+        function filterProducts() {
+            renderProducts();
+        }
+
+        function filterStock() {
+            renderStock();
+        }
+
+        function filterHistory() {
+            renderHistory();
+        }
+
+        // Modal Functions
+        function openAddProductModal() {
+            currentEditId = null;
+            document.getElementById('modalTitle').textContent = 'Add Product';
+            document.getElementById('productForm').reset();
+            document.getElementById('productModal').style.display = 'block';
+        }
+
+        function editProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            currentEditId = id;
+            document.getElementById('modalTitle').textContent = 'Edit Product';
+            document.getElementById('productName').value = product.name;
+            document.getElementById('productCode').value = product.code;
+            document.getElementById('productCategory').value = product.category;
+            document.getElementById('productBrand').value = product.brand;
+            document.getElementById('productPrice').value = product.price;
+            document.getElementById('productStock').value = product.stock;
+            document.getElementById('minStockLevel').value = product.minStock;
+            document.getElementById('usagePerService').value = product.usagePerService || '';
+            document.getElementById('productSize').value = product.size || '';
+
+            document.getElementById('productModal').style.display = 'block';
+        }
+
+        function adjustStock(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            currentEditId = id;
+            document.getElementById('adjustProductName').value = product.name;
+            document.getElementById('currentStock').value = product.stock;
+            document.getElementById('adjustForm').reset();
+            document.getElementById('adjustProductName').value = product.name;
+            document.getElementById('currentStock').value = product.stock;
+
+            document.getElementById('adjustModal').style.display = 'block';
+        }
+
+        function deleteProduct(id) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                products = products.filter(p => p.id !== id);
+                renderProducts();
+                renderStock();
+                updateStockSummary();
+
+                // Add to history
+                const product = products.find(p => p.id === id);
+                if (product) {
+                    addToHistory('DELETE', product.name, 0, 0, 'Product deleted');
+                }
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Form Handlers
+        function saveProduct(e) {
+            e.preventDefault();
+
+            const productData = {
+                name: document.getElementById('productName').value,
+                code: document.getElementById('productCode').value,
+                category: document.getElementById('productCategory').value,
+                brand: document.getElementById('productBrand').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                stock: parseInt(document.getElementById('productStock').value),
+                minStock: parseInt(document.getElementById('minStockLevel').value),
+                usagePerService: parseFloat(document.getElementById('usagePerService').value) || 0,
+                size: document.getElementById('productSize').value,
+                lastRestocked: new Date().toISOString().split('T')[0]
+            };
+
+            if (currentEditId) {
+                // Edit existing product
+                const index = products.findIndex(p => p.id === currentEditId);
+                if (index !== -1) {
+                    products[index] = { ...products[index], ...productData };
+                    addToHistory('ADJUST', productData.name, productData.stock, productData.price, 'Product updated');
+                }
+            } else {
+                // Add new product
+                const newId = Math.max(...products.map(p => p.id), 0) + 1;
+                products.push({ id: newId, ...productData });
+                addToHistory('IN', productData.name, productData.stock, productData.price, 'New product added');
+            }
+
+            renderProducts();
+            renderStock();
+            updateStockSummary();
+            closeModal('productModal');
+        }
+
+        function saveAdjustment(e) {
+            e.preventDefault();
+
+            const productId = currentEditId;
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const adjustmentType = document.getElementById('adjustmentType').value;
+            const quantity = parseInt(document.getElementById('adjustQuantity').value);
+            const cost = parseFloat(document.getElementById('adjustCost').value) || 0;
+            const lotNumber = document.getElementById('lotNumber').value;
+            const notes = document.getElementById('adjustNotes').value;
+
+            let newStock = product.stock;
+
+            switch (adjustmentType) {
+                case 'IN':
+                    newStock += quantity;
+                    break;
+                case 'OUT':
+                    newStock -= quantity;
+                    break;
+                case 'ADJUST':
+                    newStock = quantity;
+                    break;
+            }
+
+            // Ensure stock doesn't go negative
+            newStock = Math.max(0, newStock);
+
+            // Update product
+            product.stock = newStock;
+            product.lastRestocked = new Date().toISOString().split('T')[0];
+
+            // Add to history
+            addToHistory(adjustmentType, product.name, quantity, cost, notes, lotNumber);
+
+            renderProducts();
+            renderStock();
+            renderHistory();
+            updateStockSummary();
+            closeModal('adjustModal');
+        }
+
+        function addToHistory(type, productName, quantity, price, notes, lotNo = '-') {
+            const newRecord = {
+                id: Math.max(...stockHistory.map(h => h.id), 0) + 1,
+                type: type,
+                date: new Date().toISOString().split('T')[0],
+                productName: productName,
+                quantity: quantity,
+                price: price,
+                createdBy: 'ADMIN',
+                stockType: type === 'IN' ? 'new stock' : type === 'OUT' ? 'service usage' : 'adjustment',
+                lotNo: lotNo,
+                notes: notes
+            };
+
+            stockHistory.unshift(newRecord);
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function (event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+            }
+        });
+
+        // Additional utility functions
+        function exportData() {
+            const data = {
+                products: products,
+                history: stockHistory,
+                exportDate: new Date().toISOString()
+            };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'salon_inventory_' + new Date().toISOString().split('T')[0] + '.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function generateReport() {
+            const lowStockProducts = products.filter(p => p.stock <= p.minStock);
+            const outOfStockProducts = products.filter(p => p.stock === 0);
+
+            let report = `SALON INVENTORY REPORT - ${new Date().toLocaleDateString()}\n\n`;
+            report += `SUMMARY:\n`;
+            report += `Total Products: ${products.length}\n`;
+            report += `In Stock: ${products.filter(p => p.stock > p.minStock).length}\n`;
+            report += `Low Stock: ${products.filter(p => p.stock > 0 && p.stock <= p.minStock).length}\n`;
+            report += `Out of Stock: ${outOfStockProducts.length}\n\n`;
+
+            if (lowStockProducts.length > 0) {
+                report += `LOW STOCK ALERT:\n`;
+                lowStockProducts.forEach(p => {
+                    report += `- ${p.name} (${p.code}): ${p.stock} units remaining\n`;
+                });
+                report += '\n';
+            }
+
+            if (outOfStockProducts.length > 0) {
+                report += `OUT OF STOCK:\n`;
+                outOfStockProducts.forEach(p => {
+                    report += `- ${p.name} (${p.code})\n`;
+                });
+            }
+
+            const blob = new Blob([report], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'inventory_report_' + new Date().toISOString().split('T')[0] + '.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Add export buttons to the interface
+        document.addEventListener('DOMContentLoaded', function () {
+            const exportButton = document.createElement('button');
+            exportButton.className = 'add-btn';
+            exportButton.innerHTML = '<i class="fas fa-download"></i> Export Data';
+            exportButton.onclick = exportData;
+
+            const reportButton = document.createElement('button');
+            reportButton.className = 'add-btn';
+            reportButton.innerHTML = '<i class="fas fa-file-alt"></i> Generate Report';
+            reportButton.onclick = generateReport;
+
+            // Add buttons to each filter section
+            document.querySelectorAll('.filters').forEach(filterSection => {
+                const buttonGroup = document.createElement('div');
+                buttonGroup.style.display = 'flex';
+                buttonGroup.style.gap = '10px';
+                buttonGroup.appendChild(exportButton.cloneNode(true));
+                buttonGroup.appendChild(reportButton.cloneNode(true));
+
+                // Re-attach event listeners
+                buttonGroup.querySelector('button:first-child').onclick = exportData;
+                buttonGroup.querySelector('button:last-child').onclick = generateReport;
+
+                filterSection.appendChild(buttonGroup);
+            });
+        });
+    </script>
+    <script src="../../../Asset/JS/Glaminventory.js"></script>
+    
+</body>
+</html>

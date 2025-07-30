@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Management</title>
+
+   +
+    <link href="../../../Asset/CSS/admin/service.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <h1>Service Management</h1>
+            </div>
+            <div class="header-right">
+                <div class="search-container">
+                    <input type="text" id="search" placeholder="🔍Search services or subservices..." oninput="filterServices()">
+                </div>
+                <button class="add-btn" onclick="openAddServiceModal()">
+                    <span>+</span>
+                    Add Service
+                </button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Subservice</th>
+                        <th>Price</th>
+                        <th>Duration</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="serviceTableBody">
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+    <div id="paginationControls">
+        <button id="prevBtn" onclick="changePage(-1)" disabled>Previous</button>
+        <span id="pageInfo"></span>
+        <button id="nextBtn" onclick="changePage(1)" disabled>Next</button>
+    </div>
+    <!-- Add Service Modal -->
+    <div id="addServiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Service</h2>
+                <button class="close" onclick="closeAddServiceModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addServiceForm">
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="serviceName">Service Name <span class="required">*</span></label>
+                            <input type="text" id="serviceName" name="serviceName" required placeholder="e.g., Haircut">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="subserviceName">Subservice Name <span class="required">*</span></label>
+                            <input type="text" id="subserviceName" name="subserviceName" required placeholder="e.g., Men's Haircut">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="servicePrice">Price <span class="required">*</span></label>
+                            <input type="number" id="servicePrice" name="servicePrice" required placeholder="00" min="0" step="0.01">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="serviceDuration">Duration <span class="required">*</span></label>
+                            <input type="text" id="serviceDuration" name="serviceDuration" required placeholder="e.g., 30 mins">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="serviceDescription">Description</label>
+                        <textarea id="serviceDescription" name="serviceDescription" placeholder="Describe your service..." rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="serviceStatus">Status <span class="required">*</span></label>
+                        <select id="serviceStatus" name="serviceStatus" required>
+                            <option value="">Select status</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-form btn-secondary" onclick="closeAddServiceModal()">Cancel</button>
+                        <button type="submit" class="btn-form btn-primary">Add Service</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Add Subservice Modal -->
+    <div id="addSubserviceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Subservice</h2>
+                <button class="close" onclick="closeAddSubserviceModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addSubserviceForm">
+                    <!-- Hidden input to hold the ServiceId -->
+                    <input type="hidden" id="serviceIdForSubservice" name="serviceIdForSubservice">
+
+                    
+
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="subservicePrice">Price <span class="required">*</span></label>
+                            <input type="number" id="subservicePrice" name="subservicePrice" required placeholder="00" min="0" step="0.01">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="subserviceDuration">Duration <span class="required">*</span></label>
+                            <input type="text" id="subserviceDuration" name="subserviceDuration" required placeholder="e.g., 30 mins">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subserviceDescription">Description</label>
+                        <textarea id="subserviceDescription" name="subserviceDescription" placeholder="Describe your subservice..." rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subserviceStatus">Status <span class="required">*</span></label>
+                        <select id="subserviceStatus" name="subserviceStatus" required>
+                            <option value="">Select status</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-form btn-secondary" onclick="closeAddSubserviceModal()">Cancel</button>
+                        <button type="submit" class="btn-form btn-primary">Add Subservice</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Service Modal -->
+    <div id="viewServiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Service Details</h2>
+                <button class="close" onclick="closeViewServiceModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="viewServiceContent">
+                <!-- Service details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Service Modal -->
+    <div id="editServiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Service</h2>
+                <button class="close" onclick="closeEditServiceModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editServiceForm">
+                    <input type="hidden" id="editServiceId" name="editServiceId">
+                    <div class="form-row">
+                        <input type="hidden" id="editServiceId" name="editServiceId">
+                        <input type="hidden" id="editSubServiceId" name="editSubServiceId"> <!-- ✅ ADD THIS -->
+                        <!--<div class="form-group" style="flex: 1;">
+                            <label for="editServiceName">Service Name <span class="required">*</span></label>
+                            <input type="text" id="editServiceName" name="editServiceName" required>
+                        </div>-->
+                        <div class="form-group" style="flex: 1;">
+                            <label for="editSubserviceName">Subservice Name <span class="required">*</span></label>
+                            <input type="text" id="editSubserviceName" name="editSubserviceName" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="editServicePrice">Price <span class="required">*</span></label>
+                            <input type="number" id="editServicePrice" name="editServicePrice" required min="0" step="0.01">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="editServiceDuration">Duration <span class="required">*</span></label>
+                            <input type="text" id="editServiceDuration" name="editServiceDuration" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editServiceDescription">Description</label>
+                        <textarea id="editServiceDescription" name="editServiceDescription" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editServiceStatus">Status <span class="required">*</span></label>
+                        <select id="editServiceStatus" name="editServiceStatus" required>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-form btn-secondary" onclick="closeEditServiceModal()">Cancel</button>
+                        <button type="submit" class="btn-form btn-primary">Update Service</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../../../Asset/JS/service.js"></script>
+</body>
+</html>

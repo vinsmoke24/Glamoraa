@@ -1,0 +1,452 @@
+﻿/* Base Reset & Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Container */
+.container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, #dde8f1, #b5d2f0);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.header-left h1 {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Search Bar */
+.search-container input {
+    padding: 12px 20px;
+    padding-left: 45px;
+    border: none;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #000;
+    width: 280px;
+    font-size: 14px;
+    backdrop-filter: blur(10px);
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+    .search-container input::placeholder {
+        color: #000;
+        opacity: 0.7;
+    }
+
+    .search-container input:focus {
+        outline: none;
+        background: #e8eff4;
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+    }
+
+/* Add Button */
+.add-btn {
+    background: rgba(255, 255, 255, 0.3);
+    color: #000;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+    .add-btn:hover {
+        background: rgba(255, 255, 255, 0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+/* Table */
+.table-container {
+    background: #fff;
+    border-radius: 16px;
+    overflow-x: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+thead {
+    background: linear-gradient(135deg, #f8f9fa, #e0ecf9);
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #e9ecef;
+}
+
+th {
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 600;
+    color: #495057;
+
+}
+
+
+
+/* Table Hover */
+tbody tr:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-1px);
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-available {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-unavailable {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Action Buttons */
+/* Container for action buttons */
+.action-buttons {
+    display: flex;
+    flex-direction: row; /* Ensure horizontal alignment */
+    gap: 8px; /* Space between buttons */
+}
+
+/* Base style for all buttons */
+.action-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease;
+}
+
+    /* Optional hover effect */
+    .action-btn:hover::before {
+        transform: translateX(0);
+    }
+
+/* Example colors for each action */
+.btn-view {
+    background-color: #3498db; /* blue for view */
+}
+
+.btn-edit {
+    background-color: #f39c12; /* orange for edit */
+}
+
+.btn-delete {
+    background-color: #e74c3c; /* red for delete */
+}
+
+/* Optional shine effect on hover */
+.action-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.action-btn:hover::before {
+    transform: translateX(0);
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+}
+
+    .modal.active {
+        display: flex;
+        animation: fadeIn 0.3s ease;
+    }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideIn 0.3s ease;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Modal Header */
+.modal-header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    padding: 25px 30px;
+    border-radius: 16px 16px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .modal-header h2 {
+        font-size: 22px;
+        font-weight: 600;
+    }
+
+.close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    .close:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+    }
+
+/* Modal Body */
+.modal-body {
+    padding: 30px;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #fff;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+    input:focus, select:focus, textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    }
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Buttons in Form */
+/* Action Buttons Container */
+.action-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Individual Action Buttons */
+.action-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease, transform 0.2s;
+}
+
+    .action-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Optional shine effect on hover */
+    .action-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .action-btn:hover::before {
+        transform: translateX(0);
+    }
+
+/* Colors */
+.btn-view {
+    background-color: #3498db; /* blue */
+}
+
+.btn-edit {
+    background-color: #f39c12; /* orange */
+}
+
+.btn-delete {
+    background-color: #e74c3c; /* red */
+}
+
+/* Add Subservice Button (Optional Styling) */
+.add-subservice {
+    margin-top: 8px;
+    font-size: 12px;
+    background: #e8eff5;
+    padding: 4px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #444;
+}
+
+    .add-subservice:hover {
+        background: #d2e1f0;
+    }
+
+
+/* Validation Indicator */
+.required {
+    color: #e74c3c;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .header-right {
+        flex-direction: column;
+    }
+
+    .search-container input {
+        width: 100%;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    table {
+        min-width: 600px;
+    }
+
+    .modal-content {
+        width: 95%;
+    }
+}

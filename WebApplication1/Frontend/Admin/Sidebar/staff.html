@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Staff Management - Glamoraa</title>
+    <link href="../../../Asset/CSS/admin/staff.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <!--onload="loadComponent('header', 'header.html'); loadComponent('sidebar', 'sidebar2.html')">
+    <div id="header"></div>
+    <div id="sidebar2"></div>-->
+
+    <div class="page" id="staff-page">
+        <div class="content-area">
+            <div class="page-header">
+                <h2 class="page-title">Staff Management</h2>
+                <button class="btn btn-primary" id="addStaffBtn">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Add Staff Member
+                </button>
+            </div>
+
+            <div class="search-filters">
+                <div class="filter-group">
+                    <label class="filter-label">Search</label>
+                    <input type="text" class="filter-input" placeholder="Search by name" id="searchInput" />
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Branch</label>
+                    <select class="filter-input" id="branchFilter">
+                        <option value="all">All</option>
+                        <option value="iba">International Beauty Academy</option>
+                        <option value="city">City Center Branch</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Role</label>
+                    <select class="filter-input" id="roleFilter">
+                        <option value="all">All</option>
+                        <option value="stylist">Stylist</option>
+                        <option value="therapist">Therapist</option>
+                        <option value="receptionist">Receptionist</option>
+                        <option value="manager">Manager</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Status</label>
+                    <select class="filter-input" id="statusFilter">
+                        <option value="all">All</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="staff-table-container">
+                <div class="staff-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Phone No</th>
+                                <th>Email</th>
+                                <th>Specialization</th>
+                                <th>Status</th>
+                                <th>Date Of Joining</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staffTableBody">
+                            <!-- Table rows loaded by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Staff Modal -->
+    <div id="viewStaffModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>Staff Details</span>
+                <span class="close" onclick="closeViewModal()">&times;</span>
+            </div>
+
+            <div class="modal-body">
+                <p><strong>Name:</strong> <span id="viewStaffName"></span></p>
+                <p><strong>Phone:</strong> <span id="viewStaffPhone"></span></p>
+                <p><strong>Email:</strong> <span id="viewStaffEmail"></span></p>
+                <p><strong>Specialization:</strong> <span id="viewStaffSpecialization"></span></p>
+                <p><strong>Status:</strong> <span id="viewStaffStatus"></span></p>
+                <p><strong>Date of Joining:</strong> <span id="viewStaffJoining"></span></p>
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeViewModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Staff Modal -->
+    <!-- Edit Staff Modal -->
+    <div id="editStaffModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>Edit Staff Member</span>
+                <span class="close" onclick="closeEditModal()">&times;</span>
+            </div>
+
+            <form id="editStaffForm">
+                <input type="hidden" name="StaffId" id="editStaffId" />
+
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" name="FullName" id="editFullName" required />
+                </div>
+                <div class="form-group">
+                    <label>Phone Number *</label>
+                    <input type="text" name="PhoneNumber" id="editPhoneNumber" required />
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" name="Email" id="editEmail" required />
+                </div>
+                <div class="form-group">
+                    <label>Specialization *</label>
+                    <input type="text" name="Specialization" id="editSpecialization" required />
+                </div>
+                <div class="form-group">
+                    <label>Status *</label>
+                    <select name="IsActive" id="editIsActive" required>
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Date of Joining *</label>
+                    <input type="date" name="DateOfJoining" id="editDateOfJoining" required />
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Add Staff Modal -->
+
+    <div id="addStaffModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="closeModal">&times;</span>
+            <form id="addStaffForm">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" name="FullName" id="staffName" required />
+                </div>
+                <div class="form-group">
+                    <label>Phone Number *</label>
+                    <input type="text" name="PhoneNumber" id="staffPhone" required />
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" name="Email" id="staffEmail" required />
+                </div>
+                <div class="form-group">
+                    <label>Specialization *</label>
+                    <select name="Specialization" id="staffSpecializations" required>
+                        <option value="">Select Specialization</option>
+                        <option value="Stylist">Stylist</option>
+                        <option value="Therapist">Therapist</option>
+                        <option value="Receptionist">Receptionist</option>
+                        <option value="Manager">Manager</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Status *</label>
+                    <select name="Status" id="staffStatus" required>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+                <!-- Hidden auto-filled field -->
+                <input type="hidden" id="staffDOJ" />
+
+                <div class="modal-footer">
+                    <button type="button" id="cancelBtn" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Staff</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteConfirmModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>Confirm Deletion</span>
+                <span class="close" onclick="closeDeleteConfirmModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to deactivate this staff member?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeDeleteConfirmModal()">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const addStaffBtn = document.getElementById("addStaffBtn");
+            const addStaffModal = document.getElementById("addStaffModal");
+            const closeModal = document.getElementById("closeModal");
+            const cancelBtn = document.getElementById("cancelBtn");
+            const addStaffForm = document.getElementById("addStaffForm");
+            const staffTableBody = document.getElementById("staffTableBody");
+            const viewStaffModal = document.getElementById('viewStaffModal');
+            const editStaffModal = document.getElementById('editStaffModal');
+            const deleteConfirmModal = document.getElementById('deleteConfirmModal');
+            const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+            // Open Add Staff Modal
+            addStaffBtn.addEventListener("click", () => {
+                addStaffModal.style.display = "flex";
+                document.getElementById("staffDOJ").value = new Date().toISOString().split("T")[0];
+            });
+
+            closeModal.addEventListener("click", () => {
+                addStaffModal.style.display = "none";
+            });
+
+            cancelBtn.addEventListener("click", () => {
+                addStaffModal.style.display = "none";
+            });
+
+            window.addEventListener("click", (event) => {
+                if (event.target === addStaffModal) {
+                    addStaffModal.style.display = "none";
+                }
+            });
+
+            function closeViewModal() {
+                viewStaffModal.style.display = 'none';
+            }
+
+            function closeEditModal() {
+                editStaffModal.style.display = 'none';
+            }
+
+            async function loadStaff() {
+                staffTableBody.innerHTML = '<tr><td colspan="7">Loading...</td></tr>';
+                try {
+                    const response = await fetch("https://localhost:44353/api/staff");
+                    if (!response.ok) throw new Error("Failed to fetch staff data");
+
+                    const staffList = await response.json();
+                    staffTableBody.innerHTML = "";
+
+                    if (staffList.length === 0) {
+                        staffTableBody.innerHTML = '<tr><td colspan="7">No staff found.</td></tr>';
+                        return;
+                    }
+
+                    staffList.forEach(staff => {
+                        const tr = document.createElement("tr");
+                        tr.innerHTML = `
+                                <td><strong>${staff.FullName}</strong></td>
+                                <td>${staff.PhoneNumber}</td>
+                                <td>${staff.Email}</td>
+                                <td>${staff.Specializations || staff.Specialization || '-'}</td>
+                                <td><span class="status-badge ${staff.IsActive ? 'status-active' : 'status-inactive'}">
+                                    ${staff.IsActive ? 'ACTIVE' : 'INACTIVE'}
+                                </span></td>
+                                <td>${staff.DateOfJoining ? staff.DateOfJoining.split("T")[0] : '-'}</td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button class="action-btn btn-view" onclick="viewStaffFromRow(
+                                            '${staff.FullName}',
+                                            '${staff.PhoneNumber}',
+                                            '${staff.Email}',
+                                            '${staff.Specializations || staff.Specialization}',
+                                            ${staff.IsActive},
+                                            '${staff.DateOfJoining ? staff.DateOfJoining.split("T")[0] : ''}')"
+                                            title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="action-btn btn-edit" onclick="editStaff('${staff.StaffId}')" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn btn-delete" onclick="openDeleteConfirmModal('${staff.StaffId}')" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            `;
+                        staffTableBody.appendChild(tr);
+                    });
+                } catch (error) {
+                    console.error("Error loading staff:", error);
+                    staffTableBody.innerHTML = '<tr><td colspan="7">Error loading data.</td></tr>';
+                }
+            }
+
+            function viewStaffFromRow(fullName, phone, email, specialization, status, joining) {
+                document.getElementById('viewStaffName').textContent = fullName ?? '';
+                document.getElementById('viewStaffPhone').textContent = phone ?? '';
+                document.getElementById('viewStaffEmail').textContent = email ?? '';
+                document.getElementById('viewStaffSpecialization').textContent = specialization ?? '';
+                document.getElementById('viewStaffStatus').textContent = status ? 'ACTIVE' : 'INACTIVE';
+                document.getElementById('viewStaffJoining').textContent = joining ?? '';
+
+                viewStaffModal.style.display = 'flex';
+            }
+
+            function editStaff(staffId) {
+                fetch(`https://localhost:44353/api/staff/${staffId}`)
+                    .then(res => res.json())
+                    .then(staff => {
+                        document.getElementById('editStaffId').value = staff.StaffId;
+                        document.getElementById('editFullName').value = staff.FullName ?? '';
+                        document.getElementById('editPhoneNumber').value = staff.PhoneNumber ?? '';
+                        document.getElementById('editEmail').value = staff.Email ?? '';
+                        document.getElementById('editSpecialization').value = staff.Specializations ?? '';
+                        document.getElementById('editIsActive').value = staff.IsActive ? 'true' : 'false';
+                        document.getElementById('editDateOfJoining').value = staff.DateOfJoining ? staff.DateOfJoining.split("T")[0] : '';
+
+                        editStaffModal.style.display = 'flex';
+                    })
+                    .catch(err => {
+                        console.error('Failed to load staff for edit', err);
+                        alert('Failed to load staff details.');
+                    });
+            }
+
+            document.getElementById("editStaffForm").addEventListener("submit", async function (e) {
+                e.preventDefault();
+
+                const staffId = document.getElementById('editStaffId').value;
+
+                const updatedStaff = {
+                    FullName: document.getElementById('editFullName').value,
+                    PhoneNumber: document.getElementById('editPhoneNumber').value,
+                    Email: document.getElementById('editEmail').value,
+                    Specializations: document.getElementById('editSpecialization').value,
+                    IsActive: document.getElementById('editIsActive').value === 'true',
+                    DateOfJoining: document.getElementById('editDateOfJoining').value
+                };
+
+                try {
+                    const response = await fetch(`https://localhost:44353/api/staff/${staffId}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(updatedStaff)
+                    });
+
+                    if (!response.ok) throw new Error("Failed to update staff");
+
+                    alert("Staff updated successfully!");
+                    closeEditModal();
+                    loadStaff();
+                } catch (error) {
+                    console.error("Error updating staff:", error);
+                    alert("Failed to update staff.");
+                }
+            });
+
+            // Change this function name from deactivateStaff to deleteStaff
+            async function deleteStaff(staffId) {
+                // Confirm deletion with the user
+                const isConfirmed = confirm("Are you sure you want to delete this staff member?");
+                if (!isConfirmed) return;
+
+                try {
+                    // Perform the DELETE request to the backend API
+                    const response = await fetch(`https://localhost:44353/api/staff/${staffId}`, {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+
+                    // Check if the request was successful
+                    if (!response.ok) {
+                        throw new Error("Failed to deactivate staff");
+                    }
+
+                    // Reload the staff list after deletion
+                    loadStaff();
+
+                    // Optionally, show a success message
+                    alert("Staff deactivated successfully");
+                } catch (error) {
+                    // Handle any errors that occurred during the fetch request
+                    console.error("Error deactivating staff:", error);
+                    alert("Error deactivating staff. Please try again.");
+                }
+            }
+
+            // ✅ ✅ Add Staff with default hidden fields
+            addStaffForm.addEventListener("submit", async function (e) {
+                e.preventDefault();
+
+                const staffData = {
+                    UserId: 1,
+                    SalonId: 1,
+                    BranchId: 1,
+                    FullName: document.getElementById("staffName").value,
+                    PhoneNumber: document.getElementById("staffPhone").value,
+                    Email: document.getElementById("staffEmail").value,
+                    Specializations: document.getElementById("staffSpecializations").value,
+                    DateOfJoining: document.getElementById("staffDOJ").value,
+                    ProfilePictureUrl: "/images/default-profile.png",
+                    IsActive: document.getElementById("staffStatus").value === "Active",
+                    PasswordHash: btoa("123456")  // you may also just send "123456"
+                };
+
+                try {
+                    const response = awaitfetch("https://localhost:44353/api/admin/staff/add", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(staffData)
+                    });
+
+                    if (!response.ok) throw new Error("Failed to add staff");
+
+                    alert("Staff added successfully!");
+                    addStaffModal.style.display = "none";
+                    addStaffForm.reset();
+                    loadStaff();
+                } catch (error) {
+                    console.error("Error adding staff:", error);
+                    alert("Failed to add staff.");
+                }
+            });
+
+            document.getElementById('searchInput').addEventListener('input', filterTable);
+            document.getElementById('branchFilter').addEventListener('change', filterTable);
+            document.getElementById('roleFilter').addEventListener('change', filterTable);
+            document.getElementById('statusFilter').addEventListener('change', filterTable);
+
+            function filterTable() {
+                const search = document.getElementById('searchInput').value.toLowerCase();
+                const branch = document.getElementById('branchFilter').value.toLowerCase();
+                const role = document.getElementById('roleFilter').value.toLowerCase();
+                const status = document.getElementById('statusFilter').value.toLowerCase();
+
+                const rows = staffTableBody.querySelectorAll('tr');
+
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    if (cells.length < 7) return;
+
+                    const name = cells[0].textContent.toLowerCase();
+                    const specialization = cells[3].textContent.toLowerCase();
+                    const rowStatus = cells[4].textContent.toLowerCase();
+
+                    const branchMatch = branch === 'all' || specialization.includes(branch);
+                    const roleMatch = role === 'all' || specialization.includes(role);
+                    const statusMatch = status === 'all' || rowStatus.includes(status);
+                    const searchMatch = name.includes(search);
+
+                    row.style.display = (searchMatch && branchMatch && roleMatch && statusMatch) ? "" : "none";
+                });
+            }
+
+            loadStaff();
+            window.viewStaffFromRow = viewStaffFromRow;
+            window.editStaff = editStaff;
+            window.closeViewModal = closeViewModal;
+            window.closeEditModal = closeEditModal;
+        });
+    </script>
+
+</body>
+</html>

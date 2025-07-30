@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link href="../../../Asset/CSS/admin/user.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>User Management</h1>
+            <div class="header-actions">
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search by username/role..." id="searchInput">
+                </div>
+
+                <button class="btn btn-add" onclick="addUser()">
+                    <span></span>
+                    Add
+                </button>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number stat-blue" id="totalUsers"></div>
+                <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number stat-green" id="adminUsers"></div>
+                <div class="stat-label">Admin</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number stat-pink" id="managerUsers"></div>
+                <div class="stat-label">Manager</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number stat-purple" id="staffUsers"></div>
+                <div class="stat-label">Staff</div>
+            </div>
+        </div>
+
+        <!-- Users Table -->
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Is Active</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    <!-- Table rows will be dynamically generated -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            No users found matching your search criteria.
+        </div>
+    </div>
+    <!-- Add User Modal -->
+    <div class="modal" id="addUserModal" style="display: none;">
+        <div class="modal-content">
+            <h2>Add New User</h2>
+            <label>Username:</label>
+            <input type="text" id="newUsername" placeholder="Enter username" />
+            <label>Password:</label>
+            <input type="password" id="newPassword" placeholder="Enter password" />
+            <label>Role:</label>
+            <select id="newRole">
+                <option value="Admin">Admin</option>
+                <option value="Manager">Manager</option>
+                <option value="Staff">Staff</option>
+            </select>
+            <div class="modal-actions">
+                <button class="btn btn-save" onclick="submitNewUser()">Add</button>
+                <button class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+
+
+        let editingUserId = null;
+        let searchTerm = '';
+
+        // Initialize the application
+        function init() {
+            renderUsers();
+            updateStatistics();
+
+            // Setup search functionality
+            document.getElementById('searchInput').addEventListener('input', function (e) {
+                searchTerm = e.target.value.toLowerCase();
+                renderUsers();
+            });
+        }
+
+        // Render users table
+        function renderUsers() {
+            const tbody = document.getElementById('userTableBody');
+            const emptyState = document.getElementById('emptyState');
+
+            // Filter users based on search term
+            const filteredUsers = users.filter(user =>
+                user.username.toLowerCase().includes(searchTerm) ||
+                user.role.toLowerCase().includes(searchTerm) ||
+                user.email.toLowerCase().includes(searchTerm)
+            );
+
+            if (filteredUsers.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            tbody.innerHTML = filteredUsers.map(user => {
+                if (editingUserId === user.id) {
+                    return `
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="text" class="edit-input" value="${user.username}" id="edit-username-${user.id}">
+                                                                </td>
+                                                                <td>
+                                                                    <select class="edit-select" id="edit-role-${user.id}">
+                                                                        <option value="Admin" ${user.role === 'Admin' ? 'selected' : ''}>Admin</option>
+                                                                        <option value="Manager" ${user.role === 'Manager' ? 'selected' : ''}>Manager</option>
+                                                                        <option value="Editor" ${user.role === 'Editor' ? 'selected' : ''}>Editor</option>
+                                                                        <option value="Staff" ${user.role === 'Staff' ? 'selected' : ''}>Staff</option>
+                                                                        <option value="Viewer" ${user.role === 'Viewer' ? 'selected' : ''}>Viewer</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <select class="edit-select" id="edit-active-${user.id}">
+                                                                        <option value="true" ${user.isActive ? 'selected' : ''}>Active</option>
+                                                                        <option value="false" ${!user.isActive ? 'selected' : ''}>Inactive</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="action-buttons">
+                                                                        <button class="btn btn-save" onclick="saveUser(${user.id})">Save</button>
+                                                                        <button class="btn btn-cancel" onclick="cancelEdit()">Cancel</button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        `;
+                } else {
+                    return `
+                                <tr>
+                                    <td>
+                                        <div class="username">${user.username}</div>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-${user.role.toLowerCase()}">${user.role}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-${user.isActive ? 'active' : 'inactive'}">
+                                            ${user.isActive ? 'Active' : 'Inactive'}
+                                        </span>
+                                    </td>
+                                    <td>
+                                       <div class="action-buttons">
+                                <button class="action-btn btn-edit">
+                                  <i class="fas fa-pen"></i> Edit
+                                </button>
+                             <button class="action-btn btn-delete">
+                             <i class="fas fa-trash"></i> Delete
+                                </button>
+                              </div>
+                                    </td>
+                                </tr>
+`;
+                }
+            }).join('');
+        }
+
+        // Update statistics
+        function updateStatistics() {
+            const totalUsers = users.length;
+            const adminUsers = users.filter(user => user.role === 'Admin').length;
+            const managerUsers = users.filter(user => user.role === 'Manager').length;
+            const staffUsers = users.filter(user => user.role === 'Staff').length;
+
+            document.getElementById('totalUsers').textContent = totalUsers;
+            document.getElementById('adminUsers').textContent = adminUsers;
+            document.getElementById('managerUsers').textContent = managerUsers;
+            document.getElementById('staffUsers').textContent = staffUsers;
+        }
+
+        // Edit user functionality
+        function editUser(userId) {
+            editingUserId = userId;
+            renderUsers();
+        }
+
+        // Save user functionality
+        function saveUser(userId) {
+            const username = document.getElementById(`edit-username-${userId}`).value;
+            const role = document.getElementById(`edit-role-${userId}`).value;
+            const isActive = document.getElementById(`edit-active-${userId}`).value === 'true';
+
+            // Update user in the array
+            const userIndex = users.findIndex(user => user.id === userId);
+            if (userIndex !== -1) {
+                users[userIndex] = {
+                    ...users[userIndex],
+                    username: username,
+                    role: role,
+                    isActive: isActive
+                };
+            }
+
+            editingUserId = null;
+            renderUsers();
+            updateStatistics();
+        }
+
+        // Cancel edit functionality
+        function cancelEdit() {
+            editingUserId = null;
+            renderUsers();
+        }
+
+        // Delete user functionality
+        function deleteUser(userId) {
+            const user = users.find(u => u.id === userId);
+            if (confirm(`Are you sure you want to delete user "${user.username}"?`)) {
+                users = users.filter(u => u.id !== userId);
+
+                // Cancel edit if we were editing this user
+                if (editingUserId === userId) {
+                    editingUserId = null;
+                }
+
+                renderUsers();
+                updateStatistics();
+            }
+        }
+
+        // Add user functionality (basic implementation)
+        function addUser() {
+            const username = prompt('Enter username:');
+            if (username) {
+                const newUser = {
+                    id: Math.max(...users.map(u => u.id)) + 1,
+                    username: username,
+                    role: 'Viewer',
+                    isActive: true,
+                    email: `${username}@example.com`,
+                    lastLogin: new Date().toISOString().split('T')[0]
+                };
+                users.push(newUser);
+                renderUsers();
+                updateStatistics();
+            }
+        }
+
+        // Initialize the application when the page loads
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+    <script src="../../../Asset/JS/user.js"></script>
+</body>
+</html>

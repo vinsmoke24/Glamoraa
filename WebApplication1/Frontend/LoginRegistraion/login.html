@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Glamora Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+    
+    <link href="../../Asset/CSS/style.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Glamora Login</h2>
+        <form id="loginForm">
+
+            <div class="form-group">
+                <label for="role">Login As</label>
+                <select id="role" name="role" required>
+                    <option value="customer">Customer</option>
+                    <option value="staff">Staff</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="username">Email or Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username or email" required />
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter your password" required />
+            </div>
+            <div class="show-password">
+                <input type="checkbox" onclick="togglePassword()" /> Show Password
+            </div>
+            <button type="submit" class="btn-login">Login</button>
+        </form>
+        <div class="footer-text">
+            New user? <a href="customer_registration.html" style="color: #0077B6; text-decoration: none; font-weight: 500;">Register</a>
+        </div>
+
+        <div class="footer-text">
+            © 2025 Glamoraa Salon ERP | All rights reserved
+        </div>
+    </div>
+    
+
+    <script>
+        function togglePassword() {
+            const password = document.getElementById("password");
+            password.type = password.type === "password" ? "text" : "password";
+        }
+
+        document.getElementById("loginForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const username = document.querySelector('input[name="username"]').value.trim();
+            const password = document.querySelector('input[name="password"]').value.trim();
+            const role = document.querySelector('select[name="role"]').value;
+
+            if (!username || !password) {
+                alert("Please enter both username/email and password.");
+                return;
+            }
+
+            const data = { Username: username, Password: password };
+            const loginUrl = `https://localhost:44353/api/login/${role}`;
+
+            try {
+                const res = await fetch(loginUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await res.json();
+
+                if (res.status === 200) {
+                    alert("Login successful!");
+                    localStorage.setItem("token", result.Token);
+                    localStorage.setItem("role", result.Role);
+                    localStorage.setItem("name", result.Name);
+                    localStorage.setItem("userId", result.UserId || result.StaffId || result.CustomerId);
+                    alert("UserID:" + result.UserId);
+
+                    if (result.SalonId) localStorage.setItem("salonId", result.SalonId);
+                    alert("SalonId: " + result.SalonId);
+                    if (result.BranchId) localStorage.setItem("branchId", result.BranchId);
+                    alert("BranchId: " + result.BranchId);
+
+
+                    if (result.Role === "Admin") window.location.href = "../Admin/Sidebar/index.html";
+                    
+                    else if (result.Role === "Staff") window.location.href = "staff_dashboard.html";
+                    else window.location.href = "customer_dashboard.html";
+                } else {
+                    alert("Login failed: " + result);
+                }
+            } catch (err) {
+                alert(" Network error: " + err.message);
+            }
+        });
+    </script>
+
+
+</body>
+</html>
